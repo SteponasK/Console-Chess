@@ -3,9 +3,9 @@
 void calculatePseudoMoves(int array[], int colour) { 
     // Container PseudoLegalMoves;
     int flag = colour ? 1 : 0;
-    for (int i = 0; i < 144; ++i) {
+    for (int i = 0; i < 120; ++i) {
         if (colour == 1) {
-            switch (i) {
+            switch (array[i]) {
             case -99:
                 break;
             case 0:
@@ -61,9 +61,9 @@ void calculatePseudoMoves(int array[], int colour) {
 }
 void ROOKpseudoMoves(int square, int array[], int colour) {
     int moveDirections[] = {
-             { -15 },
-    { -1 },        { +1 },
-             { +15 }
+             { -10 },
+    { -1 },          { +1 },
+             { +10 }
     };
     for (int i = 0; i < 4; ++i) {
         int newSquare = square + moveDirections[i];
