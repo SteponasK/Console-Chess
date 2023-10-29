@@ -3,7 +3,11 @@
 #include "board.h"
 #include "Header.h"
 #include "draw_board.h"
+#include "input.h"
 //#include "Header.h"
+#include "windows.h"
+#include "Square_pair.h"
+#include "move.h"
 
 extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
@@ -19,20 +23,25 @@ extern int perpetualCheckCount = 0;
 //int board[144];
 
 int main() {
-
+    Square_pair square_pair;
     
     //calculatePseudoMoves(board);
     int attacks_to[144];
     
     while (!white_mated && !black_mated && !draw) {
         draw_board();
+        square_pair = input(); // input is correct
+        if (move(square_pair)) whiteTurn ? 0 : 1;
+
         // Choose piece
         // Calculate legal moves
-        // Play Move
+        // Play Move 
         // Change turn
         // AI play turn
         // Change turn
-        break;
+        Sleep(500);
+        system("CLS");
+        //break;
     }
 	return 0;
 }

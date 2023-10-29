@@ -4,6 +4,7 @@
 
 void draw_board() {
 	std::cout << "-----------------\n|";
+	int count = 8;
 	for (int i = 21; i < 100; ++i) {
 
 		switch (board[i])
@@ -27,10 +28,13 @@ void draw_board() {
 			break;
 		}
 		std::cout << '|';
+		
 		if (i % 10 == 8) {
 			i += 2;
-			std::cout << "\n-----------------\n|";
+			std::cout << count<<"\n-----------------\n|";
+			--count;
 		}
-
+		
 	}
+	std::cout << "a b c d e f g h\n\n";
 }
