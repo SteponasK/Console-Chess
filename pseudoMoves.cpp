@@ -121,3 +121,4 @@ void QUEENpseudoMoves(int square, int array[], int colour) {
     }
     // return pseudoMoves
 }
+// Knight and Pawn / King moves needed
