@@ -1,35 +1,40 @@
 #include <iostream>
 
+
+enum class Piece
+{
+    EMPTY = 0,
+    W_PAWN = 1,
+    W_ROOK = 2,
+    W_KNIGHT = 3,
+    W_BISHOP = 4,
+    W_QUEEN = 5,
+    W_KING = 6,
+
+    B_PAWN = -1,
+    B_ROOK = -2,
+    B_KNIGHT = -3,
+    B_BISHOP = -4,
+    B_QUEEN = -5,
+    B_KING = -6
+};
+
 const int BOARD_WIDTH = 12;
 const int BOARD_HEIGHT = 12;
 const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
 
-const int EMPTY = 0;
-
-const int WPAWN = 1;
-const int WROOK = 2;
-const int WKNIGHT = 3;
-const int WBISHOP = 4;
-const int WQUEEN = 5;
-const int WKING = 6;
 
 
-const int BPAWN = -1;
-const int BROOK = -2;
-const int BKNIGHT = -3;
-const int BBISHOP = -4;
-const int BQUEEN = -5;
-const int BKING = -6;
+bool whiteTurn = 1;
+bool castlingRightsWhite = 1;
+bool castlingRightsBlack = 1;
+bool white_mated = 0;
+bool black_mated = 0;
+bool draw = 0;
 
-bool whiteTurn{ 1 };
-bool castlingRightsWhite{ 1 };
-bool castlingRightsBlack{1 };
-bool white_mated{ 0 };
-bool black_mated{ 0 };
-bool draw{ 0 };
 
+void PawnPseudoMoves(int );
 int main() {
-    
 
     int board[BOARD_SIZE] = { // 12x12 Board
     -99, -99,   -99, -99, -99, -99, -99, -99, -99, -99,   -99, -99,
@@ -62,4 +67,7 @@ int main() {
 
 
 	return 0;
+}
+void PawnPseudoMoves() {
+
 }
