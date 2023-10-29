@@ -4,6 +4,6 @@ struct Move {
     int startIndex;
     int endIndex;
 };
-void calculatePseudoMoves(int array[]);
+void calculatePseudoMoves(int array[], int colour);
 #endif 
 

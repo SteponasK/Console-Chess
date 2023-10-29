@@ -31,7 +31,7 @@ int main() {
     while (!white_mated && !black_mated && !draw) {
         draw_board();
         square_pair = input(); // input is correct
-        if (move(square_pair)) whiteTurn ? 0 : 1;
+        if (handleMove(square_pair, board)) (whiteTurn ? 0 : 1);
 
         // Choose piece
         // Calculate legal moves
