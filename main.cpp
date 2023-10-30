@@ -32,7 +32,7 @@ int main() {
         draw_board();
         square_pair = input(); // input is correct
         if (handleMove(square_pair, board)) (whiteTurn ? 0 : 1);
-        auto moves = calculatePseudoMoves(board, -1);
+        auto moves = calculatePseudoMoves(board, 1);
         std::cout << "move size: " << moves.size();
         break;
         // Choose piece

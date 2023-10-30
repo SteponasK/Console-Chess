@@ -59,18 +59,23 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
                 break;
             case -2:
                  newMoves= ROOKpseudoMoves(i,  array,  colour);
+                 std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -3:
                  newMoves = KNIGHTpseudoMoves(i,  array,  colour);
+                 std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -4:
                  newMoves= BISHOPpseudoMoves(i,  array,  colour);
+                 std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -5:
                  newMoves= QUEENpseudoMoves(i,  array,  colour);
+                 std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
-            case 6:
+            case -6:
                  newMoves= KINGpseudoMoves(i,  array,  colour);
+                 std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
         }
@@ -172,6 +177,10 @@ std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour) {
             }
         }
     }
+    //for (const auto& move : pseudoMoves) {
+    //    std::cout << "King move: " << move.sq2 << std::endl;
+    //}
+    //std::cout << "      King square: " << square << std::endl;
     return pseudoMoves;
 }
 std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) {
@@ -210,8 +219,8 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
         for (int i = 0; i < 4; ++i)
             moveDirections[i] *= -1;
     }
-    for (int i = 0; i < 4; ++i) // CHANGED CORRECTLy
-        std::cout << moveDirections[i] << std::endl;
+    //for (int i = 0; i < 4; ++i) // CHANGED CORRECTLy
+    //    std::cout << moveDirections[i] << std::endl;
 
     // [1] and [3] index are captures
     int newSquare = square + moveDirections[1]; 
@@ -234,7 +243,7 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
             }
         }
         else {
-            if ((square >= 21 && square <= 28) && array[square + 10] == 0)
+            if ((square >= 31 && square <= 38) && array[square + 10] == 0)
                 pseudoMoves.push_back({ square, newSquare });
         }
     }
@@ -242,8 +251,8 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
     if (array[newSquare] == 0) {
         pseudoMoves.push_back({ square, newSquare });
     }
-    for (auto const& move : pseudoMoves) {
+    /*for (auto const& move : pseudoMoves) {
         std::cout << "Pawn move: " << move.sq2 << std::endl;
-    }
+    }*/
     return pseudoMoves;
 }
