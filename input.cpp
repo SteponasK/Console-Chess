@@ -1,7 +1,8 @@
 #include "input.h"
 #include "Square_pair.h"
 Square_pair input() {
-	std::string str = get_input();
+    std::string str;
+    do { str = get_input(); } while (!input_error_check(str));
 	int sq1 = 0;
 	int sq2 = 0;
 	handle_input(str, sq1, sq2);
@@ -13,13 +14,12 @@ std::string get_input() {
 	std::getline(std::cin, str);
 	return str;
 }
+bool input_error_check(const std::string& str) {
+    if (str.length() != 5)
+        return false;
+    return true;
+}
 void handle_input(const std::string& str, int& sq1, int& sq2) {
-    if (str.length() != 5) {
-        std::cout << "early return, length:";
-        std::cout << str.length();
-        std::cout << std::endl;
-        return;
-    }
 
     const std::string col = " abcdefgh";
 

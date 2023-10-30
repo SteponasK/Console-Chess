@@ -122,3 +122,45 @@ void QUEENpseudoMoves(int square, int array[], int colour) {
     // return pseudoMoves
 }
 // Knight and Pawn / King moves needed
+void KINGpseudoMoves(int square, int array[], int colour) {
+    int moveDirections[] = {
+    { -11 }, { -10 },  { -9 },
+    { -1 },            { +1 },
+    { +9 },  { +10 },  { +11 }
+    };
+    for (int i = 0; i < 4; ++i) {
+        int newSquare = square + moveDirections[i];
+        if (array[newSquare] != -99) {
+            // pseudoMoves.push_back(newSquare);
+            if ((array[newSquare] * colour) > 0) { // they are the same colour
+                // pseudoMoves.pop_back();
+            }
+            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
+                break;
+            }
+        }
+    }
+    // return pseudoMoves
+}
+void KNIGHTpseudoMoves(int square, int array[], int colour) {
+    int moveDirections[] = {
+           {-21},   {-19},
+    {-12},           {-8},
+    
+    {8},            {12},
+        {19},    {21}
+    };
+    for (int i = 0; i < 4; ++i) {
+        int newSquare = square + moveDirections[i];
+        if (array[newSquare] != -99) {
+            // pseudoMoves.push_back(newSquare);
+            if ((array[newSquare] * colour) > 0) { // they are the same colour
+                // pseudoMoves.pop_back();
+            }
+            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
+                break;
+            }
+        }
+    }
+    // return pseudoMoves
+}
