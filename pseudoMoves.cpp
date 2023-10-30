@@ -2,6 +2,7 @@
 #include "pseudoMoves.h"
 #include "Square_pair.h"
 #include <iostream>
+#include "previousMoves.h"
 std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
@@ -253,6 +254,9 @@ std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour) {
     //    std::cout << "King move: " << move.sq2 << std::endl;
     //}
     //std::cout << "      King square: " << square << std::endl;
+
+    // castling needed
+    // checkmate detection needed
     return pseudoMoves;
 }
 std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) {
@@ -327,5 +331,7 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
     /*for (auto const& move : pseudoMoves) {
         std::cout << "Pawn move: " << move.sq2 << std::endl;
     }*/
+    
+    // en passant needed
     return pseudoMoves;
 }

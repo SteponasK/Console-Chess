@@ -30,41 +30,46 @@ int main() {
     Square_pair square_pair;
     std::vector<boardState> boardStates;
     addBoardState(boardStates, board);
-    
-    //std::vector<int>
-    
-    //calculatePseudoMoves(board);
-    int depth = 4;
-    int colour = 1;
-    unsigned long long totalNodes = Perft(depth, board, colour);
-    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
-    
-    //while (!white_mated && !black_mated && !draw) {
-    //    draw_board();
-    //    square_pair = input(whiteTurn, board); // input is correct
-    //    
-    //    std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
-    //    if (handleMove(square_pair, board, whiteTurn)) {
-    //        whiteTurn = (whiteTurn ? 0 : 1); 
-    //        addBoardState(boardStates, board);
-    //    }
-    //    else std::cout << "handleMove returned 1: incorrect move played\n";
-    //    // Choose piece
-    //    // Calculate legal moves
-    //    // Play Move 
-    //    // Change turn
-    //    // AI play turn
-    //    // Change turn
-    //    
 
-    //    //std::cout << "board[82]:" << board[92];
-    //    //std::cout << "\nboard[62]: " << board[62];
-    //    Sleep(1500);
-    //    system("CLS");
-    //}
+    
+    // PERFT CODE
+    calculatePseudoMoves(board);
+    int depth = 3;
+    int colour = 1;
+    //unsigned long long totalNodes = Perft(depth, board, colour);
+    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+    // PERFT CODE
+
+    while (!white_mated && !black_mated && !draw) {
+        draw_board();
+        square_pair = input(whiteTurn, board); // input is correct
+        
+        std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
+        if (handleMove(square_pair, board, whiteTurn)) {
+            whiteTurn = (whiteTurn ? 0 : 1); 
+            addBoardState(boardStates, board);
+        }
+        else std::cout << "handleMove returned 1: incorrect move played\n";
+        // Choose piece
+        // Calculate legal moves
+        // Play Move 
+        // Change turn
+        // AI play turn
+        // Change turn
+        
+
+        //std::cout << "board[82]:" << board[92];
+        //std::cout << "\nboard[62]: " << board[62];
+        Sleep(1500);
+        system("CLS");
+    }
 	return 0;
 }
 unsigned long long Perft(int depth, int board[120], int colour) {
+    int newBoard[120];
+    for (int i = 0; i < 120; ++i) {
+        newBoard[i] = board[i];
+    }
     if (depth == 0) {
         return 1;  
     }
