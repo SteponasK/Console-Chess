@@ -30,21 +30,24 @@ int main() {
     
     while (!white_mated && !black_mated && !draw) {
         draw_board();
-        square_pair = input(); // input is correct
-        if (handleMove(square_pair, board)) {
+        square_pair = input(whiteTurn, board); // input is correct
+        
+        std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
+        if (handleMove(square_pair, board, whiteTurn)) {
             (whiteTurn ? 0 : 1);
         }
         else std::cout << "handleMove returned 1: incorrect move played\n";
-        auto moves = calculatePseudoMoves(board, 1);
+        /*auto moves = calculatePseudoMoves(board, 1);
         std::cout << "move size: " << moves.size();
-        break;
+        break;*/
+
         // Choose piece
         // Calculate legal moves
         // Play Move 
         // Change turn
         // AI play turn
         // Change turn
-        Sleep(500);
+        Sleep(15000);
         system("CLS");
         //break;
     }

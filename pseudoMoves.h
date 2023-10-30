@@ -7,6 +7,7 @@
 //    int endIndex; 
 //};
 std::vector<Square_pair> calculatePseudoMoves(int array[], int colour);
+std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move);
 std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour);
 std::vector<Square_pair> BISHOPpseudoMoves(int square, int array[], int colour);
 std::vector<Square_pair> QUEENpseudoMoves(int square, int array[], int colour);

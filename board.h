@@ -1,6 +1,6 @@
 #pragma once
 #include "Header.h"
-extern int board[10*12];
+extern int board[12*10];
 enum class Piece {
     EMPTY = 0,
     W_PAWN = 1,

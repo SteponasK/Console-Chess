@@ -2,6 +2,55 @@
 #include "pseudoMoves.h"
 #include "Square_pair.h"
 #include <iostream>
+std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move) {
+    // colour needs to be 1 - White, -1 - Black
+    std::vector<Square_pair> PseudoLegalMoves;
+    int square = array[move.sq1];
+            switch (square) {
+            case -99:
+                break;
+            case 0:
+                break;
+            case 1:
+                PseudoLegalMoves = PAWNpseudoMoves(square, array, colour);
+                break;
+            case 2:
+                PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+                break;
+            case 3:
+                PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+                break;
+            case 4:
+                PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+                break;
+            case 5:
+                PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+                break;
+            case 6:
+                PseudoLegalMoves = KINGpseudoMoves(square, array, colour);
+                break;
+            case -1:
+                PseudoLegalMoves = PAWNpseudoMoves(square, array, colour);
+                break;
+            case -2:
+                PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+                break;
+            case -3:
+                PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+                break;
+            case -4:
+                PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+                break;
+            case -5:
+                PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+                break;
+            case -6:
+                PseudoLegalMoves = KINGpseudoMoves(square, array, colour);
+                break;
+            }
+            std::cout << "CalculatePseudoMovesSOLO called\n";
+    return PseudoLegalMoves;
+}
 std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
