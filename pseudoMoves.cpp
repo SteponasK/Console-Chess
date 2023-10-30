@@ -8,9 +8,11 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
     // Container PseudoLegalMoves;
     int flag = colour ? 1 : 0;
     for (int i = 0; i < 120; ++i) {
+        // Padaryti: jeigu i == -99 arba i == 0, continue;
         std::vector<Square_pair> newMoves;
         if (colour == 1) {
             //std::cout << "\n White colour switch\n";
+            
             switch (array[i]) {
                 
             case -99:
@@ -20,28 +22,28 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
             case 1:
                 
                 newMoves = PAWNpseudoMoves(i,  array, colour);
-                std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
+               // std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 2:
                 
                  newMoves= ROOKpseudoMoves(i,  array,  colour);
-                 std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
+               //  std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 3:
                  newMoves= KNIGHTpseudoMoves(i, array, colour);
-                 std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
+               //  std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 4:
                  newMoves= BISHOPpseudoMoves(i, array, colour);
-                 std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
+               //  std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 5:
                  newMoves= QUEENpseudoMoves(i, array, colour);
-                 std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
+               //  std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 6:
                  newMoves= KINGpseudoMoves(i, array, colour);
-                 std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
+              //   std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
         }
@@ -55,27 +57,27 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
                 break;
             case -1:
                  newMoves= PAWNpseudoMoves(i,  array,  colour);
-                 std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
+                // std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -2:
                  newMoves= ROOKpseudoMoves(i,  array,  colour);
-                 std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
+               //  std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -3:
                  newMoves = KNIGHTpseudoMoves(i,  array,  colour);
-                 std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
+                // std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -4:
                  newMoves= BISHOPpseudoMoves(i,  array,  colour);
-                 std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
+               //  std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -5:
                  newMoves= QUEENpseudoMoves(i,  array,  colour);
-                 std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
+                // std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -6:
                  newMoves= KINGpseudoMoves(i,  array,  colour);
-                 std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
+                // std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
         }
