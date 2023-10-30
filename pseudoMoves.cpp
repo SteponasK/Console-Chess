@@ -1,41 +1,54 @@
 //#include "board.h"
 #include "pseudoMoves.h"
 #include "Square_pair.h"
-
-void calculatePseudoMoves(int array[], int colour) { 
+#include <iostream>
+std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
+    // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
     // Container PseudoLegalMoves;
     int flag = colour ? 1 : 0;
     for (int i = 0; i < 120; ++i) {
         std::vector<Square_pair> newMoves;
         if (colour == 1) {
+            //std::cout << "\n White colour switch\n";
             switch (array[i]) {
+                
             case -99:
                 break;
             case 0:
                 break;
             case 1:
+                
                 newMoves = PAWNpseudoMoves(i,  array, colour);
+                std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 2:
+                
                  newMoves= ROOKpseudoMoves(i,  array,  colour);
+                 std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 3:
                  newMoves= KNIGHTpseudoMoves(i, array, colour);
+                 std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 4:
                  newMoves= BISHOPpseudoMoves(i, array, colour);
+                 std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 5:
                  newMoves= QUEENpseudoMoves(i, array, colour);
+                 std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 6:
                  newMoves= KINGpseudoMoves(i, array, colour);
+                 std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
         }
-        else {
+        else if(colour == 0){
+            std::cout << "\n Black colour switch\n";
             switch (i) {
+               
             case -99:
                 break;
             case 0:
@@ -62,7 +75,7 @@ void calculatePseudoMoves(int array[], int colour) {
         }
         PseudoLegalMoves.insert(PseudoLegalMoves.end(), newMoves.begin(), newMoves.end());
     }
-    // reuturn PseudoLegalMoves
+    return PseudoLegalMoves;
 }
 std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour) {
     std::vector<Square_pair> pseudoMoves;
@@ -73,10 +86,11 @@ std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour) {
     };
     for (int i = 0; i < 4; ++i) {
         int newSquare = square + moveDirections[i];
-        while (array[newSquare] != -99) {
+        while (array[newSquare] != -99 && array[newSquare]) {
             pseudoMoves.push_back({square ,newSquare });
             if ((array[newSquare] * colour) > 0) { // they are the same colour
                  pseudoMoves.pop_back();
+                 //std::cout << "rooked poped out\n";
             }
             else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
                 break;
@@ -84,6 +98,9 @@ std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour) {
             newSquare += moveDirections[i];
         }
     }
+    //for (const auto& move : pseudoMoves) {
+    //    std::cout << move.sq2 << std::endl;
+    //}
     return pseudoMoves;
 }
 std::vector<Square_pair> BISHOPpseudoMoves(int square, int array[], int colour) {

@@ -4,9 +4,9 @@
 #include "Square_pair.h"
 //struct Move {
 //    int startIndex;
-//    int endIndex;
+//    int endIndex; 
 //};
-void calculatePseudoMoves(int array[], int colour);
+std::vector<Square_pair> calculatePseudoMoves(int array[], int colour);
 std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour);
 std::vector<Square_pair> BISHOPpseudoMoves(int square, int array[], int colour);
 std::vector<Square_pair> QUEENpseudoMoves(int square, int array[], int colour);
