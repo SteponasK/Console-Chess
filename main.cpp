@@ -8,6 +8,7 @@
 #include "windows.h"
 #include "Square_pair.h"
 #include "move.h"
+#include "previousMoves.h"
 
 extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
@@ -24,6 +25,10 @@ extern int perpetualCheckCount = 0;
 
 int main() {
     Square_pair square_pair;
+    std::vector<boardState> boardStates;
+    addBoardState(boardStates, board);
+    
+    //std::vector<int>
     
     //calculatePseudoMoves(board);
     int attacks_to[144];
@@ -34,23 +39,22 @@ int main() {
         
         std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
         if (handleMove(square_pair, board, whiteTurn)) {
-            (whiteTurn ? 0 : 1);
+            whiteTurn = (whiteTurn ? 0 : 1); 
+            addBoardState(boardStates, board);
         }
         else std::cout << "handleMove returned 1: incorrect move played\n";
-        /*auto moves = calculatePseudoMoves(board, 1);
-        std::cout << "move size: " << moves.size();
-        break;*/
-
         // Choose piece
         // Calculate legal moves
         // Play Move 
         // Change turn
         // AI play turn
         // Change turn
-        Sleep(15000);
+        
+
+        //std::cout << "board[82]:" << board[92];
+        //std::cout << "\nboard[62]: " << board[62];
+        Sleep(1500);
         system("CLS");
-        //break;
     }
-  //  std::cout << "square 13: " << board[13];
 	return 0;
 }

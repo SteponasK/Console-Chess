@@ -9,11 +9,12 @@ bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn) { // https
 	/*if (!checkTurn(colour, whiteTurn)) {
 		return false;
 	}*/
-	bool check = isKingInCheck(currBoard, colour);
+
+	//bool check = isKingInCheck(currBoard, colour);
 	std::vector<Square_pair> pseudoMoves = calculatePseudoMovesSolo(currBoard, colour, move);
-	for (const auto& currMove : pseudoMoves) {
+	/*for (const auto& currMove : pseudoMoves) {
 		std::cout << "   Pseudo Legal moves : " << currMove.sq1 << ' ' << currMove.sq2 << std::endl;
-	}
+	}*/
 	std::cout << "SIZE OF PSEUDOMOVES: " << pseudoMoves.size() << std::endl;
 
 	bool moveExists = false; // Handling incorrect move
@@ -41,13 +42,7 @@ bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn) { // https
 	// Play every legal move (because i will have GUI in the future (legal moves will be displayed)
 	// If that move is legal = play that move = return 1
 }
-//bool checkTurn(const int colour,const bool whiteTurn) {
-//	if (whiteTurn && (colour != 1)) return false;
-//	if (!whiteTurn && (colour != -1)) return false;
-//	// if whiteTurn == 1 , o colour != 1 return false
-//	// if whiteTurn == 0 , o colour != -1 return false
-//	return true;
-//}
+
 bool playMove_TEMPBOARD(Square_pair move, int colour,int originalBoard[120]) {
 	int newBoard[120];
 	for (int i = 0; i < 120; ++i) {
@@ -58,8 +53,6 @@ bool playMove_TEMPBOARD(Square_pair move, int colour,int originalBoard[120]) {
 		std::cout << "TempBoard king in check\n";
 		return 0;
 	}
-	
-
 	return 1;
 }
 bool isKingInCheck(int currBoard[120],int colour) {
@@ -74,7 +67,7 @@ bool isKingInCheck(int currBoard[120],int colour) {
 			break;
 		}
 	}
-	std::vector<Square_pair> pseudoMoves = calculatePseudoMoves(currBoard, colour);
+	std::vector<Square_pair> pseudoMoves = calculatePseudoMoves(currBoard, -colour);
 	for (const auto& move : pseudoMoves) {
 		if (move.sq2 == kingIndex) {
 			std::cout << "      King is in check: \n";

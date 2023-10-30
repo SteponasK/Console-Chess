@@ -5,50 +5,71 @@
 std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
-    int square = array[move.sq1];
-            switch (square) {
+    int square = move.sq1; // Square index
+            switch (array[square]) {
             case -99:
+                std::cout << "calculatePseudoMovesSolo case 99\n";
                 break;
             case 0:
+                std::cout << "calculatePseudoMovesSolo case 0\n";
                 break;
             case 1:
                 PseudoLegalMoves = PAWNpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case WPAWN\n";
                 break;
             case 2:
                 PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case WROOK\n";
                 break;
             case 3:
                 PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case WKNIGHT\n";
                 break;
             case 4:
                 PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case WBISHOP\n";
                 break;
             case 5:
                 PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case WQUEEN\n";
                 break;
             case 6:
                 PseudoLegalMoves = KINGpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case WKING\n";
                 break;
             case -1:
                 PseudoLegalMoves = PAWNpseudoMoves(square, array, colour);
+                    std::cout << "calculatePseudoMovesSolo case BPAWN\n";
                 break;
             case -2:
                 PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case BROOK\n";
                 break;
             case -3:
                 PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case BKNIGHT\n";
                 break;
             case -4:
                 PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case BBISHOP\n";
                 break;
             case -5:
                 PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case BQUEEN\n";
                 break;
             case -6:
                 PseudoLegalMoves = KINGpseudoMoves(square, array, colour);
+                std::cout << "calculatePseudoMovesSolo case BKING\n";
                 break;
+            default:
+                std::cout << "PseudoMovesSOLO default case called\n";
             }
+            
             std::cout << "CalculatePseudoMovesSOLO called\n";
+            std::cout << "pseudolegal move size: " << PseudoLegalMoves.size();
+            for (auto currentmove : PseudoLegalMoves) {
+                std::cout << "sq1: " << currentmove.sq1 << " sq2: " << currentmove.sq2 << std::endl;
+            }
     return PseudoLegalMoves;
 }
 std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
@@ -262,6 +283,7 @@ std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) 
 }
 std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
     std::vector<Square_pair> pseudoMoves;
+    std::cout << "Colour : " << colour << std::endl;
     int moveDirections[] = {
               { -20 },
     { -11 }, { -10 },  { -9 },
