@@ -1,65 +1,109 @@
 #include <iostream>
+#include "pseudoMoves.h"
+#include "board.h"
+#include "Header.h"
+#include "draw_board.h"
+#include "input.h"
+//#include "Header.h"
+#include "windows.h"
+#include "Square_pair.h"
+#include "move.h"
+#include "previousMoves.h"
 
-const int BOARD_WIDTH = 12;
-const int BOARD_HEIGHT = 12;
-const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
+extern const int BOARD_WIDTH = 12;
+extern const int BOARD_HEIGHT = 12;
+extern const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
 
-const int EMPTY = 0;
+extern bool whiteTurn = 1;
+extern bool castlingRightsWhite = 1;
+extern bool castlingRightsBlack = 1;
+extern bool white_mated = 0;
+extern bool black_mated = 0;
+extern bool draw = 0;
+extern int perpetualCheckCount = 0;
+//int board[144];
+std::vector<Square_pair> generateMoves(int board[10 * 12], int colour);
+unsigned long long Perft(int depth, int board[120], int colour);
 
-const int WPAWN = 1;
-const int WROOK = 2;
-const int WKNIGHT = 3;
-const int WBISHOP = 4;
-const int WQUEEN = 5;
-const int WKING = 6;
-
-
-const int BPAWN = -1;
-const int BROOK = -2;
-const int BKNIGHT = -3;
-const int BBISHOP = -4;
-const int BQUEEN = -5;
-const int BKING = -6;
-
-bool whiteTurn{ 1 };
-bool castlingRightsWhite{ 1 };
-bool castlingRightsBlack{1 };
-bool white_mated{ 0 };
-bool black_mated{ 0 };
-bool draw{ 0 };
 
 int main() {
-    
+    Square_pair square_pair;
+    std::vector<boardState> boardStates;
+    addBoardState(boardStates, board);
 
-    int board[BOARD_SIZE] = { // 12x12 Board
-    -99, -99,   -99, -99, -99, -99, -99, -99, -99, -99,   -99, -99,
-    -99, -99,   -99, -99, -99, -99, -99, -99, -99, -99,   -99, -99,
-    -99, -99,    -2,  -3,  -4,  -5,  -6,  -4,  -3,  -2,   -99, -99,
-    -99, -99,    -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   -99, -99,
-    -99, -99,     0,   0,   0,   0,   0,   0,   0,   0,   -99, -99,
-    -99, -99,     0,   0,   0,   0,   0,   0,   0,   0,   -99, -99,
-    -99, -99,     0,   0,   0,   0,   0,   0,   0,   0,   -99, -99,
-    -99, -99,     0,   0,   0,   0,   0,   0,   0,   0,   -99, -99,
-    -99, -99,     1,   1,   1,   1,   1,   1,   1,   1,   -99, -99,
-    -99, -99,     2,   3,   4,   5,   6,   4,   3,   2,   -99, -99,
-    -99, -99,   -99, -99, -99, -99, -99, -99, -99, -99,   -99, -99,
-    -99, -99,   -99, -99, -99, -99, -99, -99, -99, -99,   -99, -99
-    };
-    //  [26] = a8     // [32] = h8  
-    // [110] = a1     // [118] = a8  
+    
+    // PERFT CODE
+    calculatePseudoMoves(board);
+    int depth = 3;
+    int colour = 1;
+    //unsigned long long totalNodes = Perft(depth, board, colour);
+    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+    // PERFT CODE
 
     while (!white_mated && !black_mated && !draw) {
+        draw_board();
+        square_pair = input(whiteTurn, board); // input is correct
+        
+        std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
+        if (handleMove(square_pair, board, whiteTurn)) {
+            whiteTurn = (whiteTurn ? 0 : 1); 
+            addBoardState(boardStates, board);
+        }
+        else std::cout << "handleMove returned 1: incorrect move played\n";
         // Choose piece
         // Calculate legal moves
-        // Play Move
+        // Play Move 
         // Change turn
         // AI play turn
         // Change turn
-        break;
+        
+
+        //std::cout << "board[82]:" << board[92];
+        //std::cout << "\nboard[62]: " << board[62];
+        Sleep(1500);
+        system("CLS");
+    }
+	return 0;
+}
+unsigned long long Perft(int depth, int board[120], int colour) {
+    int newBoard[120];
+    for (int i = 0; i < 120; ++i) {
+        newBoard[i] = board[i];
+    }
+    if (depth == 0) {
+        return 1;  
+    }
+    unsigned long long nodes = 0;
+    std::vector<Square_pair> moves = generateMoves(board, colour);
+    for (const auto& move : moves) {
+        // make the move
+        int originalPiece = board[move.sq2];
+        board[move.sq2] = board[move.sq1];
+        board[move.sq1] = 0; 
+
+        // recursion for the next level
+        nodes += Perft(depth - 1, board, -colour);
+
+        // undo the move
+        board[move.sq1] = board[move.sq2];
+        board[move.sq2] = originalPiece;
+    }
+    return nodes;
+}
+std::vector<Square_pair> generateMoves(int board[10 * 12], int colour) {
+    std::vector<Square_pair> legalMoves;
+    
+    auto pseudoMoves = calculatePseudoMoves(board, colour);
+    for (auto pseudoMove : pseudoMoves) {
+        int newBoard[120];
+        for (int i = 0; i < 120; ++i) {
+            newBoard[i] = board[i];
+        }
+        movePieces(pseudoMove, newBoard);
+        if (!isKingInCheck(newBoard, colour)) {
+            legalMoves.push_back(pseudoMove);
+        }
     }
 
-
-
-
-	return 0;
+    return legalMoves;
 }
