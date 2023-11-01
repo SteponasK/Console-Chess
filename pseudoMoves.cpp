@@ -424,7 +424,7 @@ std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) 
 }
 std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
     std::vector<Square_pair> pseudoMoves;
-    std::cout << "Colour : " << colour << std::endl;
+   // std::cout << "Colour : " << colour << std::endl;
     int moveDirections[] = {
               { -20 },
     { -11 }, { -10 },  { -9 },

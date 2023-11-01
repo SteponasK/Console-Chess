@@ -41,6 +41,39 @@ bool playMove_TEMPBOARD(Square_pair move, int colour,int originalBoard[120], Cas
 	for (int i = 0; i < 120; ++i) {
 		newBoard[i] = originalBoard[i];
 	}
+	bool newBoardChanged = false;
+	if (newBoard[move.sq1] * colour == 6) {
+		if (move.sq1 + 2 == move.sq2) { // Short castling
+			if (isKingInCheck(originalBoard, colour, castling, boardStates)) {
+				std::cout << "\nCAN'T CASTLE: KING IS IN CHECK\n";
+				return 0;
+			}
+			// Check if move.sq1+1 isKing in check
+			bool foo = movePieces({move.sq1, move.sq1+1}, newBoard); // change fnc return type to void.
+			newBoardChanged = true;
+			if (isKingInCheck(newBoard, colour, castling, boardStates)) {
+				std::cout << "SHORTCASTLE WOULD BE IN CHECK\n";
+				return 0;
+			}
+		}
+		if (move.sq1 - 2 == move.sq2) { // Long castling
+			if (isKingInCheck(originalBoard, colour, castling, boardStates)) {
+				std::cout << "\nCAN'T CASTLE: KING IS IN CHECK\n";
+				return 0;
+			}
+			// Check if move.sq1-1  isKing in check
+			bool foo = movePieces({ move.sq1, move.sq1 - 1 }, newBoard); // change fnc return type to void.
+			newBoardChanged = true;
+			if (isKingInCheck(newBoard, colour, castling, boardStates)) {
+				std::cout << "LONGCASTLE WOULD BE IN CHECK\n";
+				return 0;
+			}
+		}
+		// If newBoardWasChanged, we have to reset it, so we can castle
+		for (int i = 0; i < 120; ++i) {
+			newBoard[i] = originalBoard[i];
+		}
+	}
 	bool foo = movePieces(move, newBoard); // change fnc return type to void.
 	if (isKingInCheck(newBoard, colour, castling, boardStates)) {
 		std::cout << "TempBoard king in check\n";
@@ -82,6 +115,7 @@ bool movePieces( Square_pair move, int currBoard[120]) {
 	std::cout << "MOVE PIECES FNC";
 	if (currBoard[move.sq1] == 6 || currBoard[move.sq1] == -6) {
 		if (move.sq1 + 2 == move.sq2) {
+			
 			// Short castle
 			// Rook going -2 tiles
 			currBoard[move.sq2 - 1] = currBoard[move.sq2 + 1]; //Left of king = rook
