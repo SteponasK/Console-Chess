@@ -1,6 +1,5 @@
 #include "input.h"
-#include "Square_pair.h"
-#include <iostream>
+
 Square_pair input(const bool whiteTurn, const int currBoard[120]) {
 start:
     std::cout << "start\n\n\n";

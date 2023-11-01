@@ -1,9 +1,8 @@
 //#include "board.h"
 #include "pseudoMoves.h"
-#include "Square_pair.h"
-#include <iostream>
+
 //#include "previousMoves.h"
-std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move) {
+std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move, Castling& castling, std::vector<boardState>& boardStates) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
     int square = move.sq1; // Square index
@@ -35,7 +34,7 @@ std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Squar
                 std::cout << "calculatePseudoMovesSolo case WQUEEN\n";
                 break;
             case 6:
-                PseudoLegalMoves = KINGpseudoMoves(square, array, colour);
+                PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
                 std::cout << "calculatePseudoMovesSolo case WKING\n";
                 break;
             case -1:
@@ -59,7 +58,7 @@ std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Squar
                 std::cout << "calculatePseudoMovesSolo case BQUEEN\n";
                 break;
             case -6:
-                PseudoLegalMoves = KINGpseudoMoves(square, array, colour);
+                PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
                 std::cout << "calculatePseudoMovesSolo case BKING\n";
                 break;
             default:
@@ -68,12 +67,12 @@ std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Squar
             
             std::cout << "CalculatePseudoMovesSOLO called\n";
             std::cout << "pseudolegal move size: " << PseudoLegalMoves.size();
-            for (auto currentmove : PseudoLegalMoves) {
+            for (const Square_pair& currentmove : PseudoLegalMoves) {
                 std::cout << "sq1: " << currentmove.sq1 << " sq2: " << currentmove.sq2 << std::endl;
             }
     return PseudoLegalMoves;
 }
-std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
+std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling& castling, std::vector<boardState>& boardStates) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
     // Container PseudoLegalMoves;
@@ -113,7 +112,7 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
                //  std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 6:
-                 newMoves= KINGpseudoMoves(i, array, colour);
+                 newMoves= KINGpseudoMoves(i, array, colour, castling, boardStates);
               //   std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
@@ -147,7 +146,7 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour) {
                 // std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -6:
-                 newMoves= KINGpseudoMoves(i,  array,  colour);
+                 newMoves= KINGpseudoMoves(i,  array,  colour, castling, boardStates);
                 // std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
@@ -231,7 +230,9 @@ std::vector<Square_pair> QUEENpseudoMoves(int square, int array[], int colour) {
     return pseudoMoves;
 }
 // Knight and Pawn / King moves needed
-std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour) {
+std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour, Castling& castling, std::vector<boardState>& boardStates) {
+    // we need castling param: 
+   //updateCastlingLegality(boardStates, castling, colour);
     std::vector<Square_pair> pseudoMoves;
     int moveDirections[] = {
     { -11 }, { -10 },  { -9 },
@@ -250,14 +251,150 @@ std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour) {
             }
         }
     }
-    //for (const auto& move : pseudoMoves) {
-    //    std::cout << "King move: " << move.sq2 << std::endl;
-    //}
-    //std::cout << "      King square: " << square << std::endl;
+    if (colour == 1) {
+        if (array[square - 1] == 0 && array[square - 2] == 0 && array[square - 3] == 0
+            && !castling.whiteLongCastleOFF) {
+            castling.whiteLongCastle = true;
+        }
+        if (array[square + 1] == 0 && array[square + 2] == 0
+            && !castling.whiteShortCastleOFF) {
+            castling.whiteShortCastle = true;
+        }
+    }
+    if (colour == -1) {
+        if (array[square - 1] == 0 && array[square - 2] == 0 && array[square - 3] == 0
+            && !castling.blackLongCastleOFF) {
+            castling.blackLongCastle = true;
+        }
+        if (array[square + 1] == 0 && array[square + 2] == 0
+            && !castling.blackShortCastleOFF) {
+            castling.blackShortCastle = true;
+        }
+    }
+    if (colour == -1) {
+        if (castling.blackLongCastle && !castling.blackLongCastleOFF) {
+            pseudoMoves.push_back({ square, square-2 });
+        }
+        if (castling.blackShortCastle && !castling.blackShortCastleOFF) {
+            pseudoMoves.push_back({ square, square + 2 });
+        }
+    }
+    else {
+        if (castling.whiteLongCastle && !castling.whiteLongCastleOFF) {
+            pseudoMoves.push_back({ square, square - 2 });
+        }
+        if (castling.whiteShortCastle && !castling.whiteShortCastleOFF) {
+            pseudoMoves.push_back({ square, square + 2 });
+        }
+    }
 
     // castling needed
     // checkmate detection needed
+    std::cout << "whiteShortCastle: " << castling.whiteShortCastle << std::endl
+        << " whiteShortCastleOFF: " << castling.whiteShortCastleOFF << std::endl;
+    std::cout << "square+1: " << array[square+1] << std::endl
+        << " square+2: " << array[square + 2] << std::endl;
     return pseudoMoves;
+}
+void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling castling, const int colour) {
+    // Split into 2 fnc: 1st in main, which checks if king or rook moved
+    // 2nd fnc: Checks if squares between king and rook are empty
+    if (boardStates.size() < 2)
+        return;
+    // CastleOFF - Can't even castle that side
+    // Castle = false, castling is legal, but not allowed under these circumstances.
+
+
+
+    boardState currentBoard = boardStates.back();
+    auto previousIterator = boardStates.end() - 1;
+    boardState previousBoard = *previousIterator;
+
+    // ROOKS AND KING MOVED CHECKING:
+    int bRooka = 21;
+    int bRookh = 28;
+    int wRooka = 91;
+    int wRookh = 98;
+
+    // If currently rooks are not in their default squares
+    if (currentBoard.array[bRooka] != -2) {
+        castling.blackLongCastleOFF = true;
+        std::cout << "castling.blackLongCastleOFF = true;";
+    }
+    if (currentBoard.array[bRookh] != -2) {
+        castling.blackShortCastleOFF = true;
+        std::cout << "castling.blackShortCastleOFF = true;";
+    }
+    if (currentBoard.array[wRooka] != 2) {
+        castling.whiteLongCastleOFF = true;
+        std::cout << "castling.whiteLongCastleOFF = true;";
+    }
+    if (currentBoard.array[wRookh] != 2) {
+        castling.whiteShortCastleOFF = true;
+        std::cout << "castling.whiteShortCastleOFF = true;";
+    }
+    // If on the last move rooks were not in their squares
+    if (previousBoard.array[bRooka] != -2) {
+        castling.blackLongCastleOFF = true;
+        std::cout << " castling.blackLongCastleOFF = true;";
+    }
+    if (previousBoard.array[bRookh] != -2) {
+        castling.blackShortCastleOFF = true;
+        std::cout << " castling.blackShortCastleOFF = true;";
+    }
+    if (previousBoard.array[wRooka] != 2) {
+        castling.whiteLongCastleOFF = true;
+        std::cout << "castling.whiteLongCastleOFF = true;";
+    }
+    if (previousBoard.array[wRookh] != 2) {
+        castling.whiteShortCastleOFF = true;
+        std::cout << "castling.whiteShortCastleOFF = true;";
+    }
+    int wKing = 25;
+    int bKing = 95; // If the kings are not on their squares
+    if (currentBoard.array[wKing] != 6) {
+        castling.whiteLongCastleOFF = true;
+        castling.whiteShortCastleOFF = true;
+    }
+    if (currentBoard.array[bKing] != -6) {
+        castling.blackLongCastleOFF = true;
+        castling.blackShortCastleOFF = true;
+    } // If on the last move kings were not on there squares
+    if (previousBoard.array[wKing] != 6) {
+        castling.whiteLongCastleOFF = true;
+        castling.whiteShortCastleOFF = true;
+    }
+    if (previousBoard.array[bKing] != -6) {
+        castling.blackLongCastleOFF = true;
+        castling.blackShortCastleOFF = true;
+    }
+
+
+    // CHECK FOR SQUARES BETWEEN KING AND ROOK:
+
+
+    //// Squares between King and Rook are free:
+    //bool wKingShortEmpty = false;
+    //bool wKingLongEmpty = false;
+    //if (currentBoard.array[92] == 0 && currentBoard.array[93] == 0
+    //    && currentBoard.array[94] == 0) {
+    //    wKingShortEmpty = true;
+    //}
+    //if (currentBoard.array[96] == 0 && currentBoard.array[97] == 0) {
+    //    wKingLongEmpty = true;
+    //}
+
+    //bool bKingShortEmpty = false;
+    //bool bKingLongEmpty = false;
+    //if (currentBoard.array[22] == 0 && currentBoard.array[23] == 0
+    //    && currentBoard.array[24] == 0) {
+    //    bKingShortEmpty = true;
+    //}
+    //if (currentBoard.array[26] == 0 && currentBoard.array[27] == 0) {
+    //    bKingLongEmpty = true;
+    //}
+
+
 }
 std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) {
     std::vector<Square_pair> pseudoMoves;
