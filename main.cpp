@@ -33,7 +33,7 @@ int main() {
 
     
     // PERFT CODE
-    calculatePseudoMoves(board);
+    //calculatePseudoMoves(board);
     int depth = 3;
     int colour = 1;
     //unsigned long long totalNodes = Perft(depth, board, colour);

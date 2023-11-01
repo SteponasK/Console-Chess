@@ -2,7 +2,7 @@
 #include "pseudoMoves.h"
 #include "Square_pair.h"
 #include <iostream>
-#include "previousMoves.h"
+//#include "previousMoves.h"
 std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
