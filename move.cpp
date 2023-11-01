@@ -28,7 +28,7 @@ bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn, std::vecto
 
 	if (playMove_TEMPBOARD(move, colour, currBoard, castling, boardStates)) {
 		std::cout << "MOVE is correct on the tempboard\n";
-		movePieces(move, currBoard);
+		movePieces(move, currBoard, boardStates);
 		return true;
 	}
 	return false;
@@ -51,7 +51,7 @@ bool playMove_TEMPBOARD(Square_pair move, int colour,int originalBoard[120], Cas
 				return 0;
 			}
 			// Check if move.sq1+1 isKing in check
-			bool foo = movePieces({move.sq1, move.sq1+1}, newBoard); // change fnc return type to void.
+			bool foo = movePieces({move.sq1, move.sq1+1}, newBoard, boardStates); // change fnc return type to void.
 			newBoardChanged = true;
 			if (isKingInCheck(newBoard, colour, castling, boardStates)) {
 				std::cout << "SHORTCASTLE WOULD BE IN CHECK\n";
@@ -64,7 +64,7 @@ bool playMove_TEMPBOARD(Square_pair move, int colour,int originalBoard[120], Cas
 				return 0;
 			}
 			// Check if move.sq1-1  isKing in check
-			bool foo = movePieces({ move.sq1, move.sq1 - 1 }, newBoard); // change fnc return type to void.
+			bool foo = movePieces({ move.sq1, move.sq1 - 1 }, newBoard, boardStates); // change fnc return type to void.
 			newBoardChanged = true;
 			if (isKingInCheck(newBoard, colour, castling, boardStates)) {
 				std::cout << "LONGCASTLE WOULD BE IN CHECK\n";
@@ -76,7 +76,7 @@ bool playMove_TEMPBOARD(Square_pair move, int colour,int originalBoard[120], Cas
 			newBoard[i] = originalBoard[i];
 		}
 	}
-	bool foo = movePieces(move, newBoard); // change fnc return type to void.
+	bool foo = movePieces(move, newBoard, boardStates); // change fnc return type to void.
 	if (isKingInCheck(newBoard, colour, castling, boardStates)) {
 		std::cout << "TempBoard king in check\n";
 		return 0;
@@ -113,7 +113,7 @@ bool isKingInCheck(int currBoard[120],int colour, Castling& castling, std::vecto
 	std::cout << "King is not in check\n";
 	return false;
 }
-bool movePieces( Square_pair move, int currBoard[120]) {
+bool movePieces( Square_pair move, int currBoard[120], std::vector<boardState>& boardStates) {
 	std::cout << "MOVE PIECES FNC";
 	if (currBoard[move.sq1] == 6 || currBoard[move.sq1] == -6) {
 		if (move.sq1 + 2 == move.sq2) {
@@ -130,13 +130,20 @@ bool movePieces( Square_pair move, int currBoard[120]) {
 			currBoard[move.sq2 - 2] = 0;
 		}
 	}
+	else if (isEnPassant(move, currBoard)) {//En passant, return later
+		if (currBoard[move.sq1] == 1) { // If the pawn is white == Capturing upwards
+			currBoard[move.sq2 - 10] = 0;
+		} // Redundant checks. WE can remove the function.
+		else if (currBoard[move.sq1] == -1) {
+			currBoard[move.sq2 + 10] = 0;
+		}
+
+		//return true;
+	}
 	currBoard[move.sq2] = currBoard[move.sq1];
 	currBoard[move.sq1] = 0;
 
-	// if move was not made return 0;
-
-	// this fnc only moves. Legal move checking should be other fnc.
-	return true;
+	return true; // Dont need return true. Just make this void
 }
 void foo() {
 	// Blueprint for AI (black)
@@ -149,4 +156,11 @@ int getColour(Square_pair move, const int currBoard[120]) {
 	if (currBoard[move.sq1] > 0) return 1;
 	// incorrect fnc. Returns board index not value
 	return -1;
+}
+bool isEnPassant(Square_pair move, int currBoard[120]) {
+	if (std::abs(move.sq1) != 1) return false; // if it's not a pawn move
+	if (currBoard[move.sq2] == 0)
+		return true; // pawn is capturing empty piece = must be en passant
+
+	return false;
 }

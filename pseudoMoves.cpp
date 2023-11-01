@@ -1,6 +1,6 @@
 //#include "board.h"
 #include "pseudoMoves.h"
-
+#include <Windows.h>
 //#include "previousMoves.h"
 std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move, Castling& castling, std::vector<boardState>& boardStates) {
     // colour needs to be 1 - White, -1 - Black
@@ -14,7 +14,7 @@ std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Squar
                 std::cout << "calculatePseudoMovesSolo case 0\n";
                 break;
             case 1:
-                PseudoLegalMoves = PAWNpseudoMoves(square, array, colour);
+                PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
                 std::cout << "calculatePseudoMovesSolo case WPAWN\n";
                 break;
             case 2:
@@ -38,7 +38,7 @@ std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Squar
                 std::cout << "calculatePseudoMovesSolo case WKING\n";
                 break;
             case -1:
-                PseudoLegalMoves = PAWNpseudoMoves(square, array, colour);
+                PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
                     std::cout << "calculatePseudoMovesSolo case BPAWN\n";
                 break;
             case -2:
@@ -91,7 +91,7 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling&
                 break;
             case 1:
                 
-                newMoves = PAWNpseudoMoves(i,  array, colour);
+                newMoves = PAWNpseudoMoves(i,  array, colour, boardStates);
                // std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 2:
@@ -126,7 +126,7 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling&
             case 0:
                 break;
             case -1:
-                 newMoves= PAWNpseudoMoves(i,  array,  colour);
+                 newMoves= PAWNpseudoMoves(i,  array,  colour, boardStates);
                 // std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -2:
@@ -428,7 +428,7 @@ std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) 
     }*/
     return pseudoMoves;
 }
-std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
+std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour, std::vector<boardState>& boardStates) {
     std::vector<Square_pair> pseudoMoves;
    // std::cout << "Colour : " << colour << std::endl;
     int moveDirections[] = {
@@ -476,5 +476,49 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour) {
     }*/
     
     // en passant needed
+    
+    //if ()
+    boardState currentBoard = boardStates.back();
+    auto previousIterator = boardStates.end() - 1; // Reikia Print prev board, pazet ar good
+    boardState previousBoard = *previousIterator;
+ /*   bool same = true;
+    for (int i = 0; i < 120; ++i) {
+        if (currentBoard.array[i] != previousBoard.array[i]) {
+            std::cout << "Index: " << i << " Prev: " << previousBoard.array[i] << "Curr: " << currentBoard.array[i] << std::endl;
+            same = false;
+        }
+    }
+    if (same)
+        std::cout << "The board is completely same!";*/
+    //Sleep(5000);
+        if (colour == 1) {
+            if(previousBoard.array[square - 21] == -1 && previousBoard.array[square - 1] == 0) { // THIS DOESNT REGISTER AS TRUE, BECASUE PREVIOUS BOARD SEES THE SQUARE AS 0: IT MEANS THAT IT SEES CURRENT SQUARE
+                // If enemy moved to possible en passant pos
+                if (currentBoard.array[square - 21 == 0] && currentBoard.array[square - 1] == -1) {
+                    pseudoMoves.push_back({ square, square - 11 }); // en passant to the left
+                }
+            }
+            if (previousBoard.array[square - 19] == -1 && previousBoard.array[square + 1] == 0) {
+                // If enemy moved to possible en passant pos
+                if (currentBoard.array[square - 19 == 0] && currentBoard.array[square + 1] == -1) {
+                    pseudoMoves.push_back({ square, square - 9 }); // en passant to the right
+                }
+            }
+        }
+        else { 
+            if (previousBoard.array[square + 21] == 1 && previousBoard.array[square + 1] == 0) {
+                // If enemy moved to possible en passant pos
+                if (currentBoard.array[square + 21 == 0] && currentBoard.array[square + 1] == 1) {
+                    pseudoMoves.push_back({ square, square + 11 }); // en passant to the left
+                }
+            }
+            if (previousBoard.array[square + 19] == 1 && previousBoard.array[square - 1] == 0) {
+                // If enemy moved to possible en passant pos
+                if (currentBoard.array[square + 19 == 0] && currentBoard.array[square - 1] == 1) {
+                    pseudoMoves.push_back({ square, square + 9 }); // en passant to the right
+                }
+            } // En passant may be bugged: be able to play for longer than 1 move.
+        }
+    
     return pseudoMoves;
 }

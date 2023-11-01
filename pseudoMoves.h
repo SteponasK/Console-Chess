@@ -19,6 +19,6 @@ std::vector<Square_pair> BISHOPpseudoMoves(int square, int array[], int colour);
 std::vector<Square_pair> QUEENpseudoMoves(int square, int array[], int colour);
 std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour, Castling& castling, std::vector<boardState>& boardStates);
 std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour);
-std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour);
+std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour, std::vector<boardState>& boardStates);
 #endif 
 

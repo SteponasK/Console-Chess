@@ -57,7 +57,10 @@ int main() {
         std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
         if (handleMove(square_pair, board, whiteTurn, boardStates, castling)) { // resettinas nes per nauja susikuria
             whiteTurn = (whiteTurn ? 0 : 1); 
-            addBoardState(boardStates, board);
+            addBoardState(boardStates, board); // Bug = All board states are the same ( i think)
+          /*  system("CLS");
+            std::cout << "BOARD STATE ADDED";
+            std::cout << boardStates.size();*/
             
 
            // updateCastlingLegality(addBoardState,);
