@@ -1,15 +1,15 @@
-#include <iostream>
+//#include <iostream>
 #include "pseudoMoves.h"
 #include "board.h"
 #include "Header.h"
 #include "draw_board.h"
 #include "input.h"
-//#include "Header.h"
 #include "windows.h"
 #include "Square_pair.h"
 #include "move.h"
 #include "previousMoves.h"
-
+#include "castling.h"
+//#include "castling.h"
 extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
 extern const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
@@ -21,9 +21,18 @@ extern bool white_mated = 0;
 extern bool black_mated = 0;
 extern bool draw = 0;
 extern int perpetualCheckCount = 0;
+
+extern int whiteARookMoved = 0;
+extern int whiteHRookMoved = 0;
+extern int blackARookMoved = 0;
+extern int blackHRookMoved = 0;
+extern int blackKingMoved = 0;
+extern int whiteKingMoved = 0;
+
+
+
 //int board[144];
-std::vector<Square_pair> generateMoves(int board[10 * 12], int colour);
-unsigned long long Perft(int depth, int board[120], int colour);
+
 
 
 int main() {
@@ -36,18 +45,22 @@ int main() {
     //calculatePseudoMoves(board);
     int depth = 3;
     int colour = 1;
-    //unsigned long long totalNodes = Perft(depth, board, colour);
+    //Castling castling;
+    //unsigned long long totalNodes = Perft(depth, board, colour, castling);
     //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
     // PERFT CODE
-
+    Castling castling;
     while (!white_mated && !black_mated && !draw) {
         draw_board();
         square_pair = input(whiteTurn, board); // input is correct
         
         std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
-        if (handleMove(square_pair, board, whiteTurn)) {
+        if (handleMove(square_pair, board, whiteTurn, boardStates, castling)) { // resettinas nes per nauja susikuria
             whiteTurn = (whiteTurn ? 0 : 1); 
             addBoardState(boardStates, board);
+            
+
+           // updateCastlingLegality(addBoardState,);
         }
         else std::cout << "handleMove returned 1: incorrect move played\n";
         // Choose piece
@@ -65,45 +78,4 @@ int main() {
     }
 	return 0;
 }
-unsigned long long Perft(int depth, int board[120], int colour) {
-    int newBoard[120];
-    for (int i = 0; i < 120; ++i) {
-        newBoard[i] = board[i];
-    }
-    if (depth == 0) {
-        return 1;  
-    }
-    unsigned long long nodes = 0;
-    std::vector<Square_pair> moves = generateMoves(board, colour);
-    for (const auto& move : moves) {
-        // make the move
-        int originalPiece = board[move.sq2];
-        board[move.sq2] = board[move.sq1];
-        board[move.sq1] = 0; 
 
-        // recursion for the next level
-        nodes += Perft(depth - 1, board, -colour);
-
-        // undo the move
-        board[move.sq1] = board[move.sq2];
-        board[move.sq2] = originalPiece;
-    }
-    return nodes;
-}
-std::vector<Square_pair> generateMoves(int board[10 * 12], int colour) {
-    std::vector<Square_pair> legalMoves;
-    
-    auto pseudoMoves = calculatePseudoMoves(board, colour);
-    for (auto pseudoMove : pseudoMoves) {
-        int newBoard[120];
-        for (int i = 0; i < 120; ++i) {
-            newBoard[i] = board[i];
-        }
-        movePieces(pseudoMove, newBoard);
-        if (!isKingInCheck(newBoard, colour)) {
-            legalMoves.push_back(pseudoMove);
-        }
-    }
-
-    return legalMoves;
-}
