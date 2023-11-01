@@ -1,11 +1,13 @@
 #include "move.h"
 #include "previousMoves.h"
 #include "Square_pair.h"
-bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn, std::vector<boardState>& boardStates) { // https://peterellisjones.com/posts/generating-legal-chess-moves-efficiently/ -> Remove king, when generating attacked squares. Read more about capture and push mask.
+bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn, std::vector<boardState>& boardStates, Castling &castling) { // https://peterellisjones.com/posts/generating-legal-chess-moves-efficiently/ -> Remove king, when generating attacked squares. Read more about capture and push mask.
 	// isKingInCheck() -> if true, then 
-	Castling castling;
+	
 	int colour = getColour(move, currBoard);
-	checkCastlingPiecesMovement(boardStates, castling, colour);
+	checkCastlingPiecesMovement(boardStates, castling, colour); // Castling gets reset to default
+
+	
 	std::vector<Square_pair> pseudoMoves = calculatePseudoMovesSolo(currBoard, colour, move, castling, boardStates);
 	
 	// if colour = balta, and move yra from 95 i 93 tada:

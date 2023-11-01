@@ -296,11 +296,10 @@ std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour, Ca
         << " square+2: " << array[square + 2] << std::endl;
     return pseudoMoves;
 }
-void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling castling, const int colour) {
+void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling& castling, const int colour) {
     // Split into 2 fnc: 1st in main, which checks if king or rook moved
     // 2nd fnc: Checks if squares between king and rook are empty
-    if (boardStates.size() < 2)
-        return;
+
     // CastleOFF - Can't even castle that side
     // Castle = false, castling is legal, but not allowed under these circumstances.
 
@@ -318,6 +317,7 @@ void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling c
 
     // If currently rooks are not in their default squares
     if (currentBoard.array[bRooka] != -2) {
+        std::cout << "currentBoard.array[bRooka]: " << currentBoard.array[bRooka] << std::endl;
         castling.blackLongCastleOFF = true;
         std::cout << "castling.blackLongCastleOFF = true;";
     }
@@ -333,6 +333,21 @@ void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling c
         castling.whiteShortCastleOFF = true;
         std::cout << "castling.whiteShortCastleOFF = true;";
     }
+    int bKing = 25;
+    int wKing = 95; // If the kings are not on their squares
+    if (currentBoard.array[wKing] != 6) {
+        std::cout << "WKing is not in default space\n";
+        castling.whiteLongCastleOFF = true;
+        castling.whiteShortCastleOFF = true;
+    }
+    if (currentBoard.array[bKing] != -6) {
+        std::cout << "BKing is not in default space\n";
+        castling.blackLongCastleOFF = true;
+        castling.blackShortCastleOFF = true;
+    }
+
+    if (boardStates.size() < 2)
+        return;
     // If on the last move rooks were not in their squares
     if (previousBoard.array[bRooka] != -2) {
         castling.blackLongCastleOFF = true;
@@ -350,16 +365,7 @@ void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling c
         castling.whiteShortCastleOFF = true;
         std::cout << "castling.whiteShortCastleOFF = true;";
     }
-    int wKing = 25;
-    int bKing = 95; // If the kings are not on their squares
-    if (currentBoard.array[wKing] != 6) {
-        castling.whiteLongCastleOFF = true;
-        castling.whiteShortCastleOFF = true;
-    }
-    if (currentBoard.array[bKing] != -6) {
-        castling.blackLongCastleOFF = true;
-        castling.blackShortCastleOFF = true;
-    } // If on the last move kings were not on there squares
+     // If on the last move kings were not on there squares
     if (previousBoard.array[wKing] != 6) {
         castling.whiteLongCastleOFF = true;
         castling.whiteShortCastleOFF = true;

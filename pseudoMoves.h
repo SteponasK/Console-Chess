@@ -11,7 +11,7 @@
 //    int endIndex; 
 //};
 
-void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling castling, const int colour);
+void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling& castling, const int colour);
 std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling& castling, std::vector<boardState>& boardStates);
 std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move, Castling& castling, std::vector<boardState>& boardStates);
 std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour);

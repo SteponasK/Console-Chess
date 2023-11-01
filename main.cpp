@@ -8,12 +8,13 @@
 #include "Square_pair.h"
 #include "move.h"
 #include "previousMoves.h"
+#include "castling.h"
 //#include "castling.h"
 extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
 extern const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
 
-extern bool whiteTurn = 0;
+extern bool whiteTurn = 1;
 extern bool castlingRightsWhite = 1;
 extern bool castlingRightsBlack = 1;
 extern bool white_mated = 0;
@@ -48,13 +49,13 @@ int main() {
     //unsigned long long totalNodes = Perft(depth, board, colour, castling);
     //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
     // PERFT CODE
-
+    Castling castling;
     while (!white_mated && !black_mated && !draw) {
         draw_board();
         square_pair = input(whiteTurn, board); // input is correct
         
         std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
-        if (handleMove(square_pair, board, whiteTurn, boardStates)) {
+        if (handleMove(square_pair, board, whiteTurn, boardStates, castling)) { // resettinas nes per nauja susikuria
             whiteTurn = (whiteTurn ? 0 : 1); 
             addBoardState(boardStates, board);
             
