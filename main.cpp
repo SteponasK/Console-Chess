@@ -13,7 +13,7 @@ extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
 extern const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
 
-extern bool whiteTurn = 1;
+extern bool whiteTurn = 0;
 extern bool castlingRightsWhite = 1;
 extern bool castlingRightsBlack = 1;
 extern bool white_mated = 0;

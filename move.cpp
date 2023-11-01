@@ -80,7 +80,7 @@ bool isKingInCheck(int currBoard[120],int colour, Castling& castling, std::vecto
 }
 bool movePieces( Square_pair move, int currBoard[120]) {
 	std::cout << "MOVE PIECES FNC";
-	if (currBoard[move.sq1] == 6){
+	if (currBoard[move.sq1] == 6 || currBoard[move.sq1] == -6) {
 		if (move.sq1 + 2 == move.sq2) {
 			// Short castle
 			// Rook going -2 tiles
