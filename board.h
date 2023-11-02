@@ -1,5 +1,6 @@
 #pragma once
 #include "Header.h"
+#include <iostream>
 extern int board[12*10];
 enum class Piece {
     EMPTY = 0,

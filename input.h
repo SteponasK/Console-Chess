@@ -3,6 +3,8 @@
 #include <string>
 #include <algorithm>
 #include "Square_pair.h"
+
+#include <iostream>
 Square_pair input(const bool whiteTurn, const int currBoard[120]);
 std::string get_input();
 void handle_input(const std::string &str, int& sq1, int& sq2);
