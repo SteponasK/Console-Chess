@@ -34,38 +34,52 @@ int main() {
     std::vector<boardState> boardStates;
     addBoardState(boardStates, board);
     Castling castling;
-    while (!white_mated && !black_mated && !draw) {
-        draw_board();
-        square_pair = input(whiteTurn, board); // input is correct
-        
-        std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
-        if (handleMove(square_pair, board, whiteTurn, boardStates, castling)) { // resettinas nes per nauja susikuria
-            whiteTurn = (whiteTurn ? 0 : 1); 
-            addBoardState(boardStates, board); // Bug = All board states are the same ( i think)
-        }
-        //else std::cout << "handleMove returned 1: incorrect move played\n";
-        // 
-        // Choose piece
-        // Calculate legal moves
-        // Play Move 
-        // Change turn
-        // AI play turn
-        // Change turn
-        Sleep(1500);
-        system("CLS");
+    //while (!white_mated && !black_mated && !draw) {
+    //    draw_board();
+    //    square_pair = input(whiteTurn, board); // input is correct
+    //    
+    //    std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
+    //    if (handleMove(square_pair, board, whiteTurn, boardStates, castling)) { // resettinas nes per nauja susikuria
+    //        whiteTurn = (whiteTurn ? 0 : 1); 
+    //        addBoardState(boardStates, board); // Bug = All board states are the same ( i think)
+    //    }
+    //    //else std::cout << "handleMove returned 1: incorrect move played\n";
+    //    // 
+    //    // Choose piece
+    //    // Calculate legal moves
+    //    // Play Move 
+    //    // Change turn
+    //    // AI play turn
+    //    // Change turn
+    //    Sleep(1500);
+    //    system("CLS");
+    //}
+
+    int tempBoard[120]{};
+    for (int i = 0; i < 120; ++i) {
+        tempBoard[i] = board[i];
     }
-    /*int depth = 1;
-    int colour = -1;
-    unsigned long long totalNodes = Perft(depth, board, colour, castling, boardStates);
+    int depth = 1;
+    int colour = 1; 
+    unsigned long long totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
     std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 
     depth = 2;
-    totalNodes = Perft(depth, board, colour, castling, boardStates);
+    totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
     std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 
-    depth = 3;
-    totalNodes = Perft(depth, board, colour, castling, boardStates);
-    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";*/
+    depth = 3;// Depth 3 White - 8884, Black - 8900
+    totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
+    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+
+    depth = 4;// Depth 3 White - 8884, Black - 8900
+    totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
+    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+
+   /* Perft(1) = 20 nodes.
+        Perft(2) = 400 nodes.
+        Perft(3) = 8884 nodes.
+        Perft(4) = 197164 nodes.*/
 	return 0;
 }
 
