@@ -1,4 +1,4 @@
-﻿#include <iostream>
+﻿
 #include "board.h"
 
 
@@ -18,7 +18,7 @@ void draw_board() {
 		case 6: std::cout << 'K'; break;
 		case -1: std::cout << 'p'; break;
 		case -2: std::cout << 'r'; break;
-		case -3: std::cout << 'k'; break;
+		case -3: std::cout << 'n'; break;
 		case -4: std::cout << 'b'; break;
 		case -5: std::cout << 'q'; break;
 		case -6: std::cout << 'k'; break;

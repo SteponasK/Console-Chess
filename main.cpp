@@ -9,7 +9,7 @@
 #include "move.h"
 #include "previousMoves.h"
 #include "castling.h"
-//#include "castling.h"
+#include "AI.h"
 extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
 extern const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
@@ -29,26 +29,10 @@ extern int blackHRookMoved = 0;
 extern int blackKingMoved = 0;
 extern int whiteKingMoved = 0;
 
-
-
-//int board[144];
-
-
-
 int main() {
     Square_pair square_pair;
     std::vector<boardState> boardStates;
     addBoardState(boardStates, board);
-
-    
-    // PERFT CODE
-    //calculatePseudoMoves(board);
-    int depth = 3;
-    int colour = 1;
-    //Castling castling;
-    //unsigned long long totalNodes = Perft(depth, board, colour, castling);
-    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
-    // PERFT CODE
     Castling castling;
     while (!white_mated && !black_mated && !draw) {
         draw_board();
@@ -57,25 +41,31 @@ int main() {
         std::cout << "Square pair is: " << square_pair.sq1 << " " << square_pair.sq2 << std::endl;
         if (handleMove(square_pair, board, whiteTurn, boardStates, castling)) { // resettinas nes per nauja susikuria
             whiteTurn = (whiteTurn ? 0 : 1); 
-            addBoardState(boardStates, board);
-            
-
-           // updateCastlingLegality(addBoardState,);
+            addBoardState(boardStates, board); // Bug = All board states are the same ( i think)
         }
-        else std::cout << "handleMove returned 1: incorrect move played\n";
+        //else std::cout << "handleMove returned 1: incorrect move played\n";
+        // 
         // Choose piece
         // Calculate legal moves
         // Play Move 
         // Change turn
         // AI play turn
         // Change turn
-        
-
-        //std::cout << "board[82]:" << board[92];
-        //std::cout << "\nboard[62]: " << board[62];
         Sleep(1500);
         system("CLS");
     }
+    /*int depth = 1;
+    int colour = -1;
+    unsigned long long totalNodes = Perft(depth, board, colour, castling, boardStates);
+    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+
+    depth = 2;
+    totalNodes = Perft(depth, board, colour, castling, boardStates);
+    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+
+    depth = 3;
+    totalNodes = Perft(depth, board, colour, castling, boardStates);
+    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";*/
 	return 0;
 }
 

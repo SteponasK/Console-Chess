@@ -34,7 +34,7 @@ std::vector<Square_pair> generateMoves(int board[10 * 12], int colour, Castling&
         for (int i = 0; i < 120; ++i) {
             newBoard[i] = board[i];
         }
-        movePieces(pseudoMove, newBoard);
+        movePieces(pseudoMove, newBoard, boardStates);
         if (!isKingInCheck(newBoard, colour, castling, boardStates)) {
             legalMoves.push_back(pseudoMove);
         }
