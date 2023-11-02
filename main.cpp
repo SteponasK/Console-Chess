@@ -27,12 +27,40 @@ int main() {
         // Change turn
         Sleep(1500);
         system("CLS");
+        game.blackCheckmated = true;
     }
-    draw_board();
-    std::cout << "Game over!\n";
-    if (game.blackCheckmated) std::cout << "White won by checkmate!\n";
-    if (game.whiteCheckmated) std::cout << "Black won by checkmate!\n";
-    if (game.stalemate) std::cout << "Draw by stalemate!\n";
+    // Scroll Previous moves:
+    // E - exit
+    // A - left  C - right
+    auto currentBoard = boardStates.back();
+    int maxIndex = boardStates.size() - 1;
+    int index = boardStates.size() - 1;
+    char key;
+    do {
+        std::cout << "Game over!\n"; // Pass it to the function maybe
+        if (game.blackCheckmated) std::cout << "White won by checkmate!\n";
+        if (game.whiteCheckmated) std::cout << "Black won by checkmate!\n";
+        if (game.stalemate) std::cout << "Draw by stalemate!\n";
+
+        if (index > maxIndex) index = maxIndex; // Out of bounds checking
+        else if (index < 0) index = 0;
+        
+        draw_board(boardStates.at(index).array);
+        std::cout << "Move: " << index + 1;
+        key = _getch();
+        key = toupper(key);
+        if (key == 'A') { // Index through all board moves.
+            --index;
+        }
+        if (key == 'D') {
+            ++index;
+        }
+        system("CLS");
+    } while (key != 'E');
+
+   // draw_board();
+    
+    
     
 
     //int tempBoard[120]{};
