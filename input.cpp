@@ -2,17 +2,16 @@
 
 Square_pair input(const bool whiteTurn, const int currBoard[120]) {
 start:
-    std::cout << "start\n\n\n";
+    std::cout << "\n\n\n";
     std::string str;
     do { str = get_input(); } while (!input_error_check(str));
     int sq1 = 0;
     int sq2 = 0;
     handle_input(str, sq1, sq2);
     if (!check_turn(whiteTurn, sq1, currBoard)) {
-        goto start; // incorrect input
+        goto start; // Incorrect input
     }
     return { sq1, sq2 };
-
 }
 bool check_turn(bool whiteTurn, const int sq1, const int currBoard[120]) {
     if (whiteTurn && (currBoard[sq1] < 1 )) {

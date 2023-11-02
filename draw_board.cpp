@@ -1,10 +1,12 @@
 ﻿#include "draw_board.h"
 
 void draw_board() {
-	std::cout << "-----------------\n|";
+	std::cout << "     a   b   c   d   e   f   g   h\n";
+	std::cout << "   +---+---+---+---+---+---+---+---+\n";
 	int count = 8;
 	for (int i = 21; i < 100; ++i) {
-
+		if (i % 10 == 1) std::cout << ' ' << count << " |";
+		std::cout << " ";
 		switch (board[i])
 		{
 		case 0: std::cout << ' '; break;
@@ -22,18 +24,19 @@ void draw_board() {
 		case -6: std::cout << 'k'; break;
 		
 		default:
-			std::cout << "4";
+			std::cout << "error";
 			break;
 		}
-		std::cout << '|';
+		std::cout << " |";
 		
 		if (i % 10 == 8) {
 			i += 2;
-			std::cout << count<<"\n-----------------\n|";
+			std::cout << " " << count;
+			std::cout << "\n   +---+---+---+---+---+---+---+---+\n";
 			--count;
 		}
 	}
-	std::cout << "a b c d e f g h\n\n";
+	std::cout << "     a   b   c   d   e   f   g   h\n\n";
 }
 void draw_board(int currBoard[120]) {
 	
