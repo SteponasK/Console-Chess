@@ -10,6 +10,7 @@
 #include "previousMoves.h"
 #include "castling.h"
 #include "AI.h"
+#include <map>
 extern const int BOARD_WIDTH = 12;
 extern const int BOARD_HEIGHT = 12;
 extern const int BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT;
@@ -59,27 +60,40 @@ int main() {
     for (int i = 0; i < 120; ++i) {
         tempBoard[i] = board[i];
     }
-    int depth = 1;
-    int colour = 1; 
-    unsigned long long totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
-    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+    
+   /* int depth = 1;
+    int colour = 1; */
+    //unsigned long long totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
+    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 
-    depth = 2;
-    totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
-    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+    //depth = 2;
+    //totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
+    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 
-    depth = 3;// Depth 3 White - 8884, Black - 8900
-    totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
-    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+    //depth = 3;// Depth 3 White - 8884, Black - 8900
+    //totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
+    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 
-    depth = 4;// Depth 3 White - 8884, Black - 8900
-    totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
-    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
+    //depth = 4;// Depth 3 White - 8884, Black - 8900
+    //totalNodes = Perft(depth, tempBoard, colour, castling, boardStates);
+    //std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 
    /* Perft(1) = 20 nodes.
         Perft(2) = 400 nodes.
         Perft(3) = 8884 nodes.
         Perft(4) = 197164 nodes.*/
+
+
+    std::map<std::string, unsigned long long> moveCounts;
+    int depth = 3;
+    int colour = 1;
+    unsigned long long totalNodes = Perft(depth, tempBoard, colour, castling, boardStates, moveCounts);
+
+    // Display move counts
+    for (const auto& entry : moveCounts) {
+        std::cout << entry.first << ": " << entry.second << std::endl;
+    }
+    std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 	return 0;
 }
 

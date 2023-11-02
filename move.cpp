@@ -96,6 +96,7 @@ bool isKingInCheck(int currBoard[120],int colour, Castling& castling, std::vecto
 		}
 	}
 	Castling temp = castling;
+	//Maybe we can make this into another function called: pseudoMoveCheck(), and then we could keep track of how many moves it missed tt.
 	std::vector<Square_pair> pseudoMoves = calculatePseudoMoves(currBoard, -colour, temp, boardStates);
 	for (const auto& move : pseudoMoves) {
 		if (move.sq2 == kingIndex) {

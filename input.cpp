@@ -52,13 +52,8 @@ void handle_input(const std::string& str, int& sq1, int& sq2) {
     // Convert to char
     int y1 = num1 - '0'; 
     int y2 = num2 - '0'; 
-   // std::cout << "x1 = " << x1 << std::endl;
-   // std::cout << "y1 = " << y1 << std::endl;
-  //  y1 = 11 - y1; // gavom: a8 11-8
-  //  y2 = 11 - y2;
+
     //calculate indexes
     sq1 =  100 - (10 * y1) + x1;
     sq2 =  100 - (10 * y2) + x2;
-    //std::cout << "sq1: " << sq1 << " sq2: " << sq2 << std::endl;
-    // changed row and colindex sides
 }
