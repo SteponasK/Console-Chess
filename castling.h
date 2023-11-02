@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CASTLING_H
+#define CASTLING_H
+
 struct Castling {
     int blackLongCastle = false; // Pseudo Legal Move = Empty Squares, both pieces had'nt moved
     int blackShortCastle = false; // Doesn't account for checks in between the squares.
@@ -11,3 +13,4 @@ struct Castling {
     int whiteShortCastleOFF = false;
     
 };
+#endif // !CASTLING_H
