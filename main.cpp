@@ -83,10 +83,14 @@ int main() {
         Perft(3) = 8884 nodes.
         Perft(4) = 197164 nodes.*/
 
-
+    draw_board();
+    /*addPerftBoardstates(boardStates);*/
+    /*auto pseudoMOVES = calculatePseudoMoves(tempBoard, -1, castling, boardStates);
+    std::cout << "size of pseudo moves: " << pseudoMOVES.size();*/
+    std::cout << "\n\n\n";
     std::map<std::string, unsigned long long> moveCounts;
-    int depth = 3;
-    int colour = 1;
+    int depth = 2;
+    int colour = -1;
     unsigned long long totalNodes = Perft(depth, tempBoard, colour, castling, boardStates, moveCounts);
 
     // Display move counts
@@ -96,4 +100,6 @@ int main() {
     std::cout << "Perft(" << depth << ") = " << totalNodes << " nodes.\n";
 	return 0;
 }
-
+//addPerftBoardstates(std::vector<boardState>& boardStates) {
+//
+//}

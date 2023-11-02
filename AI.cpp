@@ -1,5 +1,6 @@
 #include "AI.h"
 #include <string>
+#include "draw_board.h"
 //unsigned long long Perft(int depth, int tempBoard[120], int colour, Castling& castling, std::vector<boardState>& boardStates) {
 //  
 //    if (depth == 0) {
@@ -61,6 +62,12 @@ unsigned long long Perft(int depth, int tempBoard[120], int colour, Castling& ca
     }
 
     std::vector<Square_pair> pseudoMoves = calculatePseudoMoves(tempBoard, colour, castling, boardStates);
+    /*std::cout << "PseudoMoves size: in perft(): " << pseudoMoves.size() << std::endl;*/
+    /*for (auto move : pseudoMoves) {
+        std::string currMove = getMoveString(move);
+        std::cout << currMove << std::endl;
+    }*/
+    /*std::cout << "ENDPseudoMoves size: in perft(): " << pseudoMoves.size() << std::endl;*/
     unsigned long long nodes = 0;
 
     for (const auto& move : pseudoMoves) {
@@ -70,8 +77,9 @@ unsigned long long Perft(int depth, int tempBoard[120], int colour, Castling& ca
         }
 
         movePieces(move, tempBoard, boardStates);
-
+        /*draw_board(tempBoard);*/
         if (!isKingInCheck(tempBoard, colour, castling, boardStates)) {
+            /*std::cout << "NOT CHECK\n";*/
             std::string moveString = getMoveString(move);
 
             // If you're at the root node (depth-1 move), start a new count.
@@ -84,9 +92,10 @@ unsigned long long Perft(int depth, int tempBoard[120], int colour, Castling& ca
             }
 
             // Undo the move
-            for (int i = 0; i < 120; ++i) {
-                tempBoard[i] = originalTempBoard[i];
-            }
+            
+        }
+        for (int i = 0; i < 120; ++i) {
+            tempBoard[i] = originalTempBoard[i];
         }
     }
 

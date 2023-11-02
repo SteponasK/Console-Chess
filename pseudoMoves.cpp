@@ -419,9 +419,9 @@ std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) 
             if ((array[newSquare] * colour) > 0) { // they are the same colour
                  pseudoMoves.pop_back();
             }
-            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
-                break;
-            }
+            //else if ((array[newSquare] * colour) <= 0) { // not same colour (we can't move throught the piece)
+            //    break;
+            //}
         }
     }
     /*for (const auto& move : pseudoMoves) {

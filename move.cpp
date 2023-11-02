@@ -1,6 +1,7 @@
 #include "move.h"
 #include "previousMoves.h"
 #include "Square_pair.h"
+#include "draw_board.h"
 bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn, std::vector<boardState>& boardStates, Castling &castling) { // https://peterellisjones.com/posts/generating-legal-chess-moves-efficiently/ -> Remove king, when generating attacked squares. Read more about capture and push mask.
 	// isKingInCheck() -> if true, then 
 	
@@ -102,6 +103,7 @@ bool isKingInCheck(int currBoard[120],int colour, Castling& castling, std::vecto
 		if (move.sq2 == kingIndex) {
 			/*std::cout << "      King is in check: \n";
 			std::cout << "      move.sq1: " << move.sq1 << "  move.sq2: "<< move.sq2 << std::endl;*/
+			/*std::cout << "Check kingIndex: " <<kingIndex << std::endl;*/
 			return true;
 		}
 	}
@@ -113,6 +115,7 @@ bool isKingInCheck(int currBoard[120],int colour, Castling& castling, std::vecto
 	//int newBoard[120] = currBoard[120];
 	
 	//std::cout << "King is not in check\n";
+	/*std::cout << "NOCheck kingIndex: " << kingIndex << std::endl;*/
 	return false;
 }
 bool movePieces( Square_pair move, int currBoard[120], std::vector<boardState>& boardStates) {
