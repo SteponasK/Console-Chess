@@ -1,6 +1,7 @@
 #ifndef HEADERS_H
 #define HEADERS_H
 
+#include "game_end.h"
 #include "pseudoMoves.h"
 #include "board.h"
 #include "draw_board.h"

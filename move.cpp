@@ -1,16 +1,12 @@
 #include "move.h"
 
-bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn, std::vector<boardState>& boardStates, Castling &castling) { // https://peterellisjones.com/posts/generating-legal-chess-moves-efficiently/ -> Remove king, when generating attacked squares. Read more about capture and push mask.
+bool handleMove(Square_pair move, int currBoard[120], bool whiteTurn, std::vector<boardState>& boardStates, Castling &castling, GameEnd& game) { // https://peterellisjones.com/posts/generating-legal-chess-moves-efficiently/ -> Remove king, when generating attacked squares. Read more about capture and push mask.
 	// isKingInCheck() -> if true, then 
 	
 	int colour = getColour(move, currBoard);
 	checkCastlingPiecesMovement(boardStates, castling, colour); // Castling gets reset to default
 
 	std::vector<Square_pair> pseudoMoves = calculatePseudoMovesSolo(currBoard, colour, move, castling, boardStates);
-	if (pseudoMoves.empty()) {
-		// Checkmate implementation
-	}
-
 	bool moveExists = false; // Handling incorrect move
 	for (const auto& currMove : pseudoMoves) {
 		if ((move.sq1 == currMove.sq1) && (move.sq2 == currMove.sq2)) {
@@ -131,4 +127,23 @@ void foo() {
 int getColour(Square_pair move, const int currBoard[120]) {
 	if (currBoard[move.sq1] > 0) return 1;
 	return -1;
+}
+void calculateGameEnd(int board[120], GameEnd& game,  int colour, Castling& castling, std::vector<boardState>& boardStates) {
+	if (colour == 0) colour = -1; // Update the colour
+	auto moves = calculatePseudoMoves(board, colour, castling, boardStates);
+	
+	for (const auto& move : moves) {
+		if (playMove_TEMPBOARD(move, colour, board, castling, boardStates)) // If king has moves - return.
+			return;
+	}
+	// If there are no legal moves for the king
+	if (!isKingInCheck(board, colour, castling, boardStates)) {
+		game.stalemate = true; // If the king is not in check
+	}
+	else if (colour == 1) { // Otherwise checkmate
+		game.whiteCheckmated = true;
+	}
+	else if (colour == -1) {
+		game.blackCheckmated = true;
+	}
 }
