@@ -1,4 +1,4 @@
-#include "previousMoves.h"
+#include "boardStates.h"
 
 void addBoardState(std::vector<boardState>& boardStates, const int array[120]) {
 	boardState temp{};

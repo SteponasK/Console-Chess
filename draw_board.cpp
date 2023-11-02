@@ -1,6 +1,4 @@
-﻿
-#include "board.h"
-#include "draw_board.h"
+﻿#include "draw_board.h"
 
 void draw_board() {
 	std::cout << "-----------------\n|";
@@ -34,7 +32,6 @@ void draw_board() {
 			std::cout << count<<"\n-----------------\n|";
 			--count;
 		}
-		
 	}
 	std::cout << "a b c d e f g h\n\n";
 }
@@ -71,8 +68,6 @@ void draw_board(int currBoard[120]) {
 				std::cout << count << "\n-----------------\n|";
 				--count;
 			}
-
 		}
 		std::cout << "a b c d e f g h\n\n";
-	
 }

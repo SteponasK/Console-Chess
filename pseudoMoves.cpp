@@ -1,89 +1,62 @@
-//#include "board.h"
 #include "pseudoMoves.h"
-#include <Windows.h>
-//#include "previousMoves.h"
+
 std::vector<Square_pair> calculatePseudoMovesSolo(int array[], int colour, Square_pair move, Castling& castling, std::vector<boardState>& boardStates) {
     // colour needs to be 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
     int square = move.sq1; // Square index
             switch (array[square]) {
             case -99:
-                //  std::cout << "calculatePseudoMovesSolo case 99\n";
                 break;
             case 0:
-                //  std::cout << "calculatePseudoMovesSolo case 0\n";
                 break;
             case 1:
                 PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
-                //  std::cout << "calculatePseudoMovesSolo case WPAWN\n";
                 break;
             case 2:
                 PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
-                // std::cout << "calculatePseudoMovesSolo case WROOK\n";
                 break;
             case 3:
                 PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
-                //  std::cout << "calculatePseudoMovesSolo case WKNIGHT\n";
                 break;
             case 4:
                 PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
-                //  std::cout << "calculatePseudoMovesSolo case WBISHOP\n";
                 break;
             case 5:
                 PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
-                // std::cout << "calculatePseudoMovesSolo case WQUEEN\n";
                 break;
             case 6:
                 PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
-                // std::cout << "calculatePseudoMovesSolo case WKING\n";
                 break;
             case -1:
                 PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
-                //    std::cout << "calculatePseudoMovesSolo case BPAWN\n";
                 break;
             case -2:
                 PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
-                // std::cout << "calculatePseudoMovesSolo case BROOK\n";
                 break;
             case -3:
                 PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
-                //  std::cout << "calculatePseudoMovesSolo case BKNIGHT\n";
                 break;
             case -4:
                 PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
-                // std::cout << "calculatePseudoMovesSolo case BBISHOP\n";
                 break;
             case -5:
                 PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
-                // std::cout << "calculatePseudoMovesSolo case BQUEEN\n";
                 break;
             case -6:
                 PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
-                //  std::cout << "calculatePseudoMovesSolo case BKING\n";
                 break;
             default:
-                //  std::cout << "PseudoMovesSOLO default case called\n";
                 break;
             }
-            
-            //  std::cout << "CalculatePseudoMovesSOLO called\n";
-           // std::cout << "pseudolegal move size: " << PseudoLegalMoves.size();
-            /*for (const Square_pair& currentmove : PseudoLegalMoves) {
-                std::cout << "sq1: " << currentmove.sq1 << " sq2: " << currentmove.sq2 << std::endl;
-            }*/
     return PseudoLegalMoves;
 }
 std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling& castling, std::vector<boardState>& boardStates) {
-    // colour needs to be 1 - White, -1 - Black
+    // Colour: 1 - White, -1 - Black
     std::vector<Square_pair> PseudoLegalMoves;
-    // Container PseudoLegalMoves;
     int flag = colour ? 1 : 0;
     for (int i = 0; i < 120; ++i) {
-        // Padaryti: jeigu i == -99 arba i == 0, continue;
         std::vector<Square_pair> newMoves;
         if (colour == 1) {
-            //std::cout << "\n White colour switch\n";
-            
             switch (array[i]) {
                 
             case -99:
@@ -91,35 +64,26 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling&
             case 0:
                 break;
             case 1:
-                
                 newMoves = PAWNpseudoMoves(i,  array, colour, boardStates);
-               // std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 2:
-                
                  newMoves= ROOKpseudoMoves(i,  array,  colour);
-               //  std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 3:
                  newMoves= KNIGHTpseudoMoves(i, array, colour);
-               //  std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 4:
                  newMoves= BISHOPpseudoMoves(i, array, colour);
-               //  std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 5:
                  newMoves= QUEENpseudoMoves(i, array, colour);
-               //  std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case 6:
                  newMoves= KINGpseudoMoves(i, array, colour, castling, boardStates);
-              //   std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
         }
         else if(colour == -1){
-            /*std::cout << "\n Black colour switch\n";*/
             switch (array[i]) {
                
             case -99:
@@ -128,27 +92,21 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling&
                 break;
             case -1:
                  newMoves= PAWNpseudoMoves(i,  array,  colour, boardStates);
-                // std::cout << "Pawn pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -2:
                  newMoves= ROOKpseudoMoves(i,  array,  colour);
-               //  std::cout << "Rook pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -3:
                  newMoves = KNIGHTpseudoMoves(i,  array,  colour);
-                // std::cout << "Knight pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -4:
                  newMoves= BISHOPpseudoMoves(i,  array,  colour);
-               //  std::cout << "Bishop pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -5:
                  newMoves= QUEENpseudoMoves(i,  array,  colour);
-                // std::cout << "Queen pseudo move L: " << newMoves.size() << std::endl;
                 break;
             case -6:
                  newMoves= KINGpseudoMoves(i,  array,  colour, castling, boardStates);
-                // std::cout << "KING pseudo move L: " << newMoves.size() << std::endl;
                 break;
             }
         }
@@ -157,8 +115,7 @@ std::vector<Square_pair> calculatePseudoMoves(int array[], int colour, Castling&
     return PseudoLegalMoves;
 }
 std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour) {
-    // colour 1 - white, colour -1 = black
-  /*  std::cout << "rook pseudo move fncx called";*/
+    // Colour 1 - White, Colour -1 = Black
     std::vector<Square_pair> pseudoMoves;
     int moveDirections[] = {
              { -10 },
@@ -169,20 +126,16 @@ std::vector<Square_pair> ROOKpseudoMoves(int square, int array[], int colour) {
         int newSquare = square + moveDirections[i];
         while (array[newSquare] != -99) {
             pseudoMoves.push_back({square ,newSquare });
-            if ((array[newSquare] * colour) > 0) { // they are the same colour
+            if ((array[newSquare] * colour) > 0) { // Same colour pieces
                  pseudoMoves.pop_back();
                  break;
-                 //std::cout << "rooked poped out\n";
             }
-            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
+            else if ((array[newSquare] * colour) < 0) { // Not same colour (we can't move throught the piece)
                 break;
             }
             newSquare += moveDirections[i];
         }
     }
-    /*for (const auto& move : pseudoMoves) {
-        std::cout << move.sq2 << std::endl;
-    }*/
     return pseudoMoves;
 }
 std::vector<Square_pair> BISHOPpseudoMoves(int square, int array[], int colour) {
@@ -195,11 +148,11 @@ std::vector<Square_pair> BISHOPpseudoMoves(int square, int array[], int colour) 
         int newSquare = square + moveDirections[i];
         while (array[newSquare] != -99) {
             pseudoMoves.push_back({ square ,newSquare });
-            if ((array[newSquare] * colour) > 0) { // they are the same colour
+            if ((array[newSquare] * colour) > 0) { // Same colour pieces
                  pseudoMoves.pop_back();
                  break;
             }
-            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
+            else if ((array[newSquare] * colour) < 0) { // Not same colour (we can't move throught the piece)
                 break;
             }
             newSquare += moveDirections[i];
@@ -218,11 +171,11 @@ std::vector<Square_pair> QUEENpseudoMoves(int square, int array[], int colour) {
         int newSquare = square + moveDirections[i];
         while (array[newSquare] != -99) {
             pseudoMoves.push_back({ square ,newSquare });
-            if ((array[newSquare] * colour) > 0) { // they are the same colour
+            if ((array[newSquare] * colour) > 0) { // Same colour pieces
                  pseudoMoves.pop_back();
                  break;
             }
-            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
+            else if ((array[newSquare] * colour) < 0) { // Not same colour (we can't move throught the piece)
                 break;
             }
             newSquare += moveDirections[i];
@@ -230,10 +183,8 @@ std::vector<Square_pair> QUEENpseudoMoves(int square, int array[], int colour) {
     }
     return pseudoMoves;
 }
-// Knight and Pawn / King moves needed
 std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour, Castling& castling, std::vector<boardState>& boardStates) {
-    // we need castling param: 
-   //updateCastlingLegality(boardStates, castling, colour);
+    
     std::vector<Square_pair> pseudoMoves;
     int moveDirections[] = {
     { -11 }, { -10 },  { -9 },
@@ -244,15 +195,15 @@ std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour, Ca
         int newSquare = square + moveDirections[i];
         if (array[newSquare] != -99) {
             pseudoMoves.push_back({ square ,newSquare });
-            if ((array[newSquare] * colour) > 0) { // they are the same colour
+            if ((array[newSquare] * colour) > 0) { // Same colour pieces
                  pseudoMoves.pop_back();
             }
-            else if ((array[newSquare] * colour) < 0) { // not same colour (we can't move throught the piece)
+            else if ((array[newSquare] * colour) < 0) { // Not same colour (we can't move throught the piece)
                 break;
             }
         }
     }
-    if (colour == 1) {
+    if (colour == 1) { // Castling checks
         if (array[square - 1] == 0 && array[square - 2] == 0 && array[square - 3] == 0
             && !castling.whiteLongCastleOFF) {
             castling.whiteLongCastle = true;
@@ -288,23 +239,12 @@ std::vector<Square_pair> KINGpseudoMoves(int square, int array[], int colour, Ca
             pseudoMoves.push_back({ square, square + 2 });
         }
     }
-
-    // castling needed
-    // checkmate detection needed
-    /*std::cout << "whiteShortCastle: " << castling.whiteShortCastle << std::endl
-        << " whiteShortCastleOFF: " << castling.whiteShortCastleOFF << std::endl;
-    std::cout << "square+1: " << array[square+1] << std::endl
-        << " square+2: " << array[square + 2] << std::endl;*/
     return pseudoMoves;
 }
 void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling& castling, const int colour) {
-    // Split into 2 fnc: 1st in main, which checks if king or rook moved
-    // 2nd fnc: Checks if squares between king and rook are empty
 
     // CastleOFF - Can't even castle that side
     // Castle = false, castling is legal, but not allowed under these circumstances.
-
-
 
     boardState currentBoard = boardStates.back();
     auto previousIterator = boardStates.end() - 1;
@@ -318,31 +258,24 @@ void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling& 
 
     // If currently rooks are not in their default squares
     if (currentBoard.array[bRooka] != -2) {
-        // std::cout << "currentBoard.array[bRooka]: " << currentBoard.array[bRooka] << std::endl;
         castling.blackLongCastleOFF = true;
-        // std::cout << "castling.blackLongCastleOFF = true;";
     }
     if (currentBoard.array[bRookh] != -2) {
         castling.blackShortCastleOFF = true;
-        // std::cout << "castling.blackShortCastleOFF = true;";
     }
     if (currentBoard.array[wRooka] != 2) {
         castling.whiteLongCastleOFF = true;
-        //  std::cout << "castling.whiteLongCastleOFF = true;";
     }
     if (currentBoard.array[wRookh] != 2) {
         castling.whiteShortCastleOFF = true;
-        //  std::cout << "castling.whiteShortCastleOFF = true;";
     }
     int bKing = 25;
     int wKing = 95; // If the kings are not on their squares
     if (currentBoard.array[wKing] != 6) {
-        // std::cout << "WKing is not in default space\n";
         castling.whiteLongCastleOFF = true;
         castling.whiteShortCastleOFF = true;
     }
     if (currentBoard.array[bKing] != -6) {
-        // std::cout << "BKing is not in default space\n";
         castling.blackLongCastleOFF = true;
         castling.blackShortCastleOFF = true;
     }
@@ -352,19 +285,15 @@ void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling& 
     // If on the last move rooks were not in their squares
     if (previousBoard.array[bRooka] != -2) {
         castling.blackLongCastleOFF = true;
-       // std::cout << " castling.blackLongCastleOFF = true;";
     }
     if (previousBoard.array[bRookh] != -2) {
         castling.blackShortCastleOFF = true;
-       // std::cout << " castling.blackShortCastleOFF = true;";
     }
     if (previousBoard.array[wRooka] != 2) {
         castling.whiteLongCastleOFF = true;
-       // std::cout << "castling.whiteLongCastleOFF = true;";
     }
     if (previousBoard.array[wRookh] != 2) {
         castling.whiteShortCastleOFF = true;
-       // std::cout << "castling.whiteShortCastleOFF = true;";
     }
      // If on the last move kings were not on there squares
     if (previousBoard.array[wKing] != 6) {
@@ -375,33 +304,6 @@ void checkCastlingPiecesMovement(std::vector<boardState> boardStates, Castling& 
         castling.blackLongCastleOFF = true;
         castling.blackShortCastleOFF = true;
     }
-
-
-    // CHECK FOR SQUARES BETWEEN KING AND ROOK:
-
-
-    //// Squares between King and Rook are free:
-    //bool wKingShortEmpty = false;
-    //bool wKingLongEmpty = false;
-    //if (currentBoard.array[92] == 0 && currentBoard.array[93] == 0
-    //    && currentBoard.array[94] == 0) {
-    //    wKingShortEmpty = true;
-    //}
-    //if (currentBoard.array[96] == 0 && currentBoard.array[97] == 0) {
-    //    wKingLongEmpty = true;
-    //}
-
-    //bool bKingShortEmpty = false;
-    //bool bKingLongEmpty = false;
-    //if (currentBoard.array[22] == 0 && currentBoard.array[23] == 0
-    //    && currentBoard.array[24] == 0) {
-    //    bKingShortEmpty = true;
-    //}
-    //if (currentBoard.array[26] == 0 && currentBoard.array[27] == 0) {
-    //    bKingLongEmpty = true;
-    //}
-
-
 }
 std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) {
     std::vector<Square_pair> pseudoMoves;
@@ -416,33 +318,24 @@ std::vector<Square_pair> KNIGHTpseudoMoves(int square, int array[], int colour) 
         int newSquare = square + moveDirections[i];
         if (array[newSquare] != -99) {
             pseudoMoves.push_back({ square ,newSquare });
-            if ((array[newSquare] * colour) > 0) { // they are the same colour
+            if ((array[newSquare] * colour) > 0) { // Same colour pieces
                  pseudoMoves.pop_back();
             }
-            //else if ((array[newSquare] * colour) <= 0) { // not same colour (we can't move throught the piece)
-            //    break;
-            //}
         }
     }
-    /*for (const auto& move : pseudoMoves) {
-        std::cout << "Knight move: " << move.sq2 << std::endl;
-    }*/
+
     return pseudoMoves;
 }
 std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour, std::vector<boardState>& boardStates) {
     std::vector<Square_pair> pseudoMoves;
-   // std::cout << "Colour : " << colour << std::endl;
     int moveDirections[] = {
               { -20 },
     { -11 }, { -10 },  { -9 },
     };
-    if (colour == -1) {// black
+    if (colour == -1) { // Move directions have to be changed for the black piece.
         for (int i = 0; i < 4; ++i)
             moveDirections[i] *= -1;
     }
-    //for (int i = 0; i < 4; ++i) // CHANGED CORRECTLy
-    //    std::cout << moveDirections[i] << std::endl;
-
     // [1] and [3] index are captures
     int newSquare = square + moveDirections[1]; 
     if (array[newSquare] * colour < 0 && array[newSquare] != -99){ // Different colour square.
@@ -453,12 +346,9 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour, std
         pseudoMoves.push_back({ square, newSquare });
     }
 
-    newSquare = square + moveDirections[0]; // 2 square move
+    newSquare = square + moveDirections[0]; // 2 Square Move
     if (array[newSquare] == 0 && array[newSquare] != -99) {
         if (colour == 1) {
-            //std::cout << "      Colour is white\n";
-            //std::cout << "      Curr square: " << square << std::endl;
-            //std::cout << "      Square-10: " << array[square - 10] << std::endl;
             if ((square >= 81 && square <= 88) && array[square - 10] == 0) {
                 pseudoMoves.push_back({ square, newSquare });
             }
@@ -468,63 +358,41 @@ std::vector<Square_pair>PAWNpseudoMoves(int square, int array[], int colour, std
                 pseudoMoves.push_back({ square, newSquare });
         }
     }
-    newSquare = square + moveDirections[2]; // 1 square move
+    newSquare = square + moveDirections[2]; // 1 Square move
     if (array[newSquare] == 0) {
         pseudoMoves.push_back({ square, newSquare });
     }
-    /*for (auto const& move : pseudoMoves) {
-        std::cout << "Pawn move: " << move.sq2 << std::endl;
-    }*/
-    
-    // en passant needed
-    
-    //if ()
     if (boardStates.size() >= 2) {
         boardState currentBoard = boardStates.back();
-       // auto previousIterator = boardStates.end() - 1; // Reikia Print prev board, pazet ar good
-       // boardState previousBoard = *previousIterator;
         boardState previousBoard = boardStates[boardStates.size() - 2];
-        /*   bool same = true;
-           for (int i = 0; i < 120; ++i) {
-               if (currentBoard.array[i] != previousBoard.array[i]) {
-                   std::cout << "Index: " << i << " Prev: " << previousBoard.array[i] << "Curr: " << currentBoard.array[i] << std::endl;
-                   same = false;
-               }
-           }
-           if (same)
-               
-               << "The board is completely same!";*/
-               //Sleep(5000);
        if (colour == 1) {
-            if (previousBoard.array[square - 21] == -1 && previousBoard.array[square - 1] == 0) { // THIS DOESNT REGISTER AS TRUE, BECASUE PREVIOUS BOARD SEES THE SQUARE AS 0: IT MEANS THAT IT SEES CURRENT SQUARE
-                // If enemy moved to possible en passant pos
+            if (previousBoard.array[square - 21] == -1 && previousBoard.array[square - 1] == 0) {
+                // If enemy moved to possible en passant square
                 if (currentBoard.array[square - 21 == 0] && currentBoard.array[square - 1] == -1) {
-                    pseudoMoves.push_back({ square, square - 11 }); // en passant to the left
+                    pseudoMoves.push_back({ square, square - 11 }); // En passant to the left
                 }
             }
             if (previousBoard.array[square - 19] == -1 && previousBoard.array[square + 1] == 0) {
-                // If enemy moved to possible en passant pos
+                // If enemy moved to possible en passant square
                 if (currentBoard.array[square - 19 == 0] && currentBoard.array[square + 1] == -1) {
-                    pseudoMoves.push_back({ square, square - 9 }); // en passant to the right
+                    pseudoMoves.push_back({ square, square - 9 }); // En passant to the right
                 }
             }
         }
         else {
             if (previousBoard.array[square + 21] == 1 && previousBoard.array[square + 1] == 0) {
-                // If enemy moved to possible en passant pos
+                // If enemy moved to possible en passant square
                 if (currentBoard.array[square + 21 == 0] && currentBoard.array[square + 1] == 1) {
-                    pseudoMoves.push_back({ square, square + 11 }); // en passant to the left
+                    pseudoMoves.push_back({ square, square + 11 }); // En passant to the left
                 }
             }
             if (previousBoard.array[square + 19] == 1 && previousBoard.array[square - 1] == 0) {
-                // If enemy moved to possible en passant pos
+                // If enemy moved to possible en passant square
                 if (currentBoard.array[square + 19 == 0] && currentBoard.array[square - 1] == 1) {
-                    pseudoMoves.push_back({ square, square + 9 }); // en passant to the right
+                    pseudoMoves.push_back({ square, square + 9 }); // En passant to the right
                 }
-            } // En passant may be bugged: be able to play for longer than 1 move.
+            }
         }
     }
-    
-    
     return pseudoMoves;
 }
