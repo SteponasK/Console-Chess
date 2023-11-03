@@ -39,9 +39,33 @@ bool Board::handleMove(const Square_pair& move) {
 	return 1;
 }
 
-bool Board::isKingInCheck(const std::array<int, 120>& currentBoard, const bool colour) {// True - change colour
+bool Board::isKingInCheck(const std::array<int, 120>& currentBoard, const int colour) {// True - change colour
 	std::vector<Square_pair> pseudoMoves = getPseudoMoves(currentBoard, -colour); // get enemies pseudo moves (squares they control)
+	int currWking = 0;
+	int currBking = 0;
+	for (int i = 0; i < 120; ++i) {
+		if (currentBoard[i] == 6)
+			currWking = i;
+		if (currentBoard[i] == -6)
+			currBking = i;
+	}
+	for (const Square_pair& movePair : pseudoMoves) {
+		if (colour == 1) {
+			if (movePair.sq2 == currWking)
+				return 1;
+		}
+		else {
+			if (movePair.sq2 == currBking)
+				return 1;
+		}
 		
+	}
+	return 0;
+}
+bool  Board::isKingInCheck(const int colour) { 
+	std::vector<Square_pair> pseudoMoves = getPseudoMoves(-colour); // get enemies pseudo moves (squares they control)
+	// NOT IMPLEMENTED PSEUDOMOVES FNC YET
+	// this fnc will be used to check if king is currently in check in main.cpp
 	for (const Square_pair& movePair : pseudoMoves) {
 		if (colour == 1) {
 			if (movePair.sq2 == wKing)
@@ -51,12 +75,8 @@ bool Board::isKingInCheck(const std::array<int, 120>& currentBoard, const bool c
 			if (movePair.sq2 == bKing)
 				return 1;
 		}
-		
+
 	}
-	return 0;
-}
-bool  Board::isKingInCheck(const int colour) { 
-	std::vector<Square_pair> pseudoMoves = getPseudoMoves(colour);
 	return 0;
 }
 bool Board::moveExists(const Square_pair& originalMove, const std::vector<Square_pair>& pseudoMoves) {
@@ -264,60 +284,70 @@ std::vector<Square_pair> Board::getPseudoMoves(const std::array<int, 120>& curre
 
 		
 		std::vector<Square_pair> newMoves;
-		switch (squareValue) {
-		case 1:
-			//std::vector<Square_pair> Board::getPawnPseudoMoves(const int piece, const std::array<int, 120>&currentBoard, const int colour)
-			newMoves = getPawnPseudoMoves(i, currentBoard, colour);
-			//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
-			break;
-		case 2:
-			//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
-			newMoves = getRookPseudoMoves(i, currentBoard, colour);
-			break;
-		case 3:
-			//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
-			newMoves = getKnightPseudoMoves(i, currentBoard, colour);
-			break;
-		case 4:
-			//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
-			newMoves = getBishopPseudoMoves(i, currentBoard, colour);
-			break;
-		case 5:
-			//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
-			newMoves = getQueenPseudoMoves(i, currentBoard, colour);
-			break;
-		case 6:
-			//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
-			newMoves = getKingPseudoMoves(i, currentBoard, colour);
-			break;
-		case -1:
-			//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
-			newMoves = getPawnPseudoMoves(i, currentBoard, colour);
-			break;
-		case -2:
-			//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
-			newMoves = getRookPseudoMoves(i, currentBoard, colour);
-			break;
-		case -3:
-			//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
-			newMoves = getKnightPseudoMoves(i, currentBoard, colour);
-			break;
-		case -4:
-			//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
-			newMoves = getBishopPseudoMoves(i, currentBoard, colour);
-			break;
-		case -5:
-			//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
-			newMoves = getQueenPseudoMoves(i, currentBoard, colour);
-			break;
-		case -6:
-			//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
-			newMoves = getKingPseudoMoves(i, currentBoard, colour);
-			break;
-		default:
-			break;
+		if (colour == 1) {
+			switch (squareValue) {
+			case 1:
+				//std::vector<Square_pair> Board::getPawnPseudoMoves(const int piece, const std::array<int, 120>&currentBoard, const int colour)
+				newMoves = getPawnPseudoMoves(i, currentBoard, colour);
+				//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+				break;
+			case 2:
+				//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+				newMoves = getRookPseudoMoves(i, currentBoard, colour);
+				break;
+			case 3:
+				//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+				newMoves = getKnightPseudoMoves(i, currentBoard, colour);
+				break;
+			case 4:
+				//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+				newMoves = getBishopPseudoMoves(i, currentBoard, colour);
+				break;
+			case 5:
+				//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+				newMoves = getQueenPseudoMoves(i, currentBoard, colour);
+				std::cout << "CALled getqueenpeudomoves";
+				break;
+			case 6:
+				//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+				newMoves = getKingPseudoMoves(i, currentBoard, colour);
+				break;
+			default:
+				break;
+			}
 		}
-		PseudoLegalMoves.insert(PseudoLegalMoves.end(), newMoves.begin(), newMoves.end());
+		else {
+			switch (squareValue) {
+			case -1:
+				//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+				newMoves = getPawnPseudoMoves(i, currentBoard, colour);
+				break;
+			case -2:
+				//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+				newMoves = getRookPseudoMoves(i, currentBoard, colour);
+				break;
+			case -3:
+				//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+				newMoves = getKnightPseudoMoves(i, currentBoard, colour);
+				break;
+			case -4:
+				//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+				newMoves = getBishopPseudoMoves(i, currentBoard, colour);
+				break;
+			case -5:
+				//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+				newMoves = getQueenPseudoMoves(i, currentBoard, colour);
+				break;
+			case -6:
+				//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+				newMoves = getKingPseudoMoves(i, currentBoard, colour);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		PseudoLegalMoves.insert(PseudoLegalMoves.end(), newMoves.begin(), newMoves.end()); // could be bad insert
 		
 	}
 	return PseudoLegalMoves;
@@ -501,10 +531,7 @@ void Board::updateGameStatus() {
 		movePieces(move, tempBoard); // Move the pieces on tempBoard
 
 		if (!isKingInCheck(tempBoard, whiteTurn)) {
-			if (whiteTurn == 1) {
-				whiteCheckmated = false;
-			}
-			else blackCheckmated = false;
+			return;
 		}
 	}
 	if (!isKingInCheck(board, whiteTurn)) {
@@ -540,4 +567,8 @@ bool Board::canCastle(const Square_pair& move, const std::array<int, 120>& curre
 		}
 	}
 	return 1;
+}
+bool Board::gameOver() {
+	if (whiteCheckmated || blackCheckmated || stalemate)
+		return true;
 }

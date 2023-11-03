@@ -129,14 +129,9 @@
   <ItemGroup>
     <ClCompile Include="board.cpp" />
     <ClCompile Include="boardConstructor.cpp" />
-    <ClCompile Include="draw_board.cpp" />
-    <ClCompile Include="game_end.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="move.cpp" />
     <ClCompile Include="PiecePseudoMoves.cpp" />
-    <ClCompile Include="prevMoves.cpp" />
-    <ClCompile Include="pseudoMoves.cpp" />
     <ClCompile Include="Square_pair.cpp" />
   </ItemGroup>
   <ItemGroup>
