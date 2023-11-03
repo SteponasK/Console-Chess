@@ -117,13 +117,6 @@ void movePieces( Square_pair move, int currBoard[120], std::vector<boardState>& 
 	currBoard[move.sq2] = currBoard[move.sq1];
 	currBoard[move.sq1] = 0;
 }
-void foo() {
-	// Blueprint for AI (black)
-	// Get curr eval
-	// Minimax fnc
-	// Play highest eval move
-	// Change turn 
-}
 int getColour(Square_pair move, const int currBoard[120]) {
 	if (currBoard[move.sq1] > 0) return 1;
 	return -1;
