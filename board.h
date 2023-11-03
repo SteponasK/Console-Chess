@@ -10,19 +10,24 @@
 extern int board[12*10];
 class Board {
 public:
+	Board();
 	std::array<int, 120> board;// Galima i private // constructor to draw the board needed.
 	void drawBoard(const int currBoard[120]);
 	void drawBoard();
 	bool handleMove(const Square_pair& move);
+	int whiteTurn = 1; // White = 1 / Black = -1
+	void updateGameStatus();
+	bool canCastle(const Square_pair& move,const std::array<int, 120>& currentBoard, const int whiteTurn);
+
+	void updateBoardState(const std::array<int, 120>& currentBoard);
 private: // suskirstyti i sekcijas pagal - be overload ir su
-	void updateBoardState(boardState& currentBoard); 
+	
 	void movePieces(const Square_pair& move);
 	void movePieces(const Square_pair& move, std::array<int, 120>& currentBoard);
 	bool isKingInCheck(const std::array<int, 120>& currentBoard,const bool isWhite);
 	bool isKingInCheck(const int colour);
 	bool moveExists(const Square_pair& originalMove, const std::vector<Square_pair>& pseudoMoves);
 	/*Done*/void updateCastling();
-	void updateGameEndState();
 	std::vector<Square_pair> getPseudoMoves(const int colour);
 	std::vector<Square_pair> getPseudoMoves(const int piece, const int colour);
 	std::vector<Square_pair> getPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
@@ -33,10 +38,27 @@ private: // suskirstyti i sekcijas pagal - be overload ir su
 	bool blackCheckmated = false;
 	bool stalemate = false;
 	std::vector<boardState> boardStates{};
-	int whiteTurn = 1; // White = 1 / Black = -1
-	Castling castling{};
-	int wKing{};
-	int bKing{};
 	
+	Castling castling{};
+	int wKing{95};
+	int bKing{25};
+	
+
+	
+	std::vector<Square_pair> getPawnPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
+	std::vector<Square_pair> getKingPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
+	std::vector<Square_pair> getQueenPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
+	std::vector<Square_pair> getRookPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
+	std::vector<Square_pair> getBishopPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
+	std::vector<Square_pair> getKnightPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour);
+
+	//Overload normalp seudo moves:
+	std::vector<Square_pair> getPawnPseudoMoves(const int piece, const int colour);
+	std::vector<Square_pair> getKingPseudoMoves(const int piece, const int colour);
+	std::vector<Square_pair> getQueenPseudoMoves(const int piece, const int colour);
+	std::vector<Square_pair> getRookPseudoMoves(const int piece, const int colour);
+	std::vector<Square_pair> getBishopPseudoMoves(const int piece, const int colour);
+	std::vector<Square_pair> getKnightPseudoMoves(const int piece, const int colour);
+
 };
 #endif // !BOARD_H

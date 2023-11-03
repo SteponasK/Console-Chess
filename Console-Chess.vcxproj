@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="boardConstructor.cpp" />
     <ClCompile Include="draw_board.cpp" />
     <ClCompile Include="game_end.cpp" />
     <ClCompile Include="input.cpp" />

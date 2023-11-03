@@ -17,16 +17,21 @@ int board[120] = { // 10x12 Board
 bool Board::handleMove(const Square_pair& move) {
 	updateKingPositions();
 	updateCastling();
-	
-	std::vector<Square_pair> pseudoMoves = getPseudoMoves(move.sq1, whiteTurn);
+	// Baltas nori paeiti
+	std::vector<Square_pair> pseudoMoves = getPseudoMoves(move.sq1, whiteTurn); // Randam balto ejimus
 
 	if (!moveExists(move, pseudoMoves))
 		return 0;
-
+	if ( (move.sq1 + 2 == move.sq2 || move.sq1 - 2 == move.sq2) && (std::abs(board[move.sq1]) == 6)) {
+		if (!canCastle(move, board, whiteTurn)) {
+			return 0; // Castling legality Check
+		}
+	}
+	
 	std::array<int, 120> tempBoard = board;
 	movePieces(move, tempBoard); // Move the pieces on tempBoard
 	
-	if (isKingInCheck(tempBoard, -whiteTurn)) {
+	if (isKingInCheck(tempBoard, whiteTurn)) {
 		return 0;
 	}
 	movePieces(move);
@@ -35,8 +40,8 @@ bool Board::handleMove(const Square_pair& move) {
 }
 
 bool Board::isKingInCheck(const std::array<int, 120>& currentBoard, const bool colour) {// True - change colour
-	std::vector<Square_pair> pseudoMoves = getPseudoMoves(currentBoard, colour); // get enemies pseudo moves (squares they control)
-	
+	std::vector<Square_pair> pseudoMoves = getPseudoMoves(currentBoard, -colour); // get enemies pseudo moves (squares they control)
+		
 	for (const Square_pair& movePair : pseudoMoves) {
 		if (colour == 1) {
 			if (movePair.sq2 == wKing)
@@ -65,9 +70,9 @@ void Board::updateCastling() {/*Done*/
 	// CastleOFF - Can't even castle that side
 	// Castle = false, castling is legal, but not allowed under these circumstances.
 
-	boardState currentBoard = boardStates.back();
-	auto previousIterator = boardStates.end() - 1;
-	boardState previousBoard = *previousIterator;
+	if (boardStates.size() < 2) return;
+	boardState currentBoard = boardStates.back(); // Dont know if this is alright (using same boardstates as b4)
+	boardState previousBoard = boardStates[boardStates.size() - 2];
 
 	// ROOKS AND KING MOVED CHECKING:
 	int bRooka = 21;
@@ -76,25 +81,25 @@ void Board::updateCastling() {/*Done*/
 	int wRookh = 98;
 
 	// If currently rooks are not in their default squares
-	if (currentBoard.array[bRooka] != -2) {
+	if (currentBoard.currArray[bRooka] != -2) {
 		castling.blackLongCastleOFF = true;
 	}
-	if (currentBoard.array[bRookh] != -2) {
+	if (currentBoard.currArray[bRookh] != -2) {
 		castling.blackShortCastleOFF = true;
 	}
-	if (currentBoard.array[wRooka] != 2) {
+	if (currentBoard.currArray[wRooka] != 2) {
 		castling.whiteLongCastleOFF = true;
 	}
-	if (currentBoard.array[wRookh] != 2) {
+	if (currentBoard.currArray[wRookh] != 2) {
 		castling.whiteShortCastleOFF = true;
 	}
-	int bKing = 25;
-	int wKing = 95; // If the kings are not on their squares
-	if (currentBoard.array[wKing] != 6) {
+	int bKingdefault = 25;
+	int wKingdefault = 95; // If the kings are not on their squares
+	if (currentBoard.currArray[wKingdefault] != 6) {
 		castling.whiteLongCastleOFF = true;
 		castling.whiteShortCastleOFF = true;
 	}
-	if (currentBoard.array[bKing] != -6) {
+	if (currentBoard.currArray[bKingdefault] != -6) {
 		castling.blackLongCastleOFF = true;
 		castling.blackShortCastleOFF = true;
 	}
@@ -102,90 +107,278 @@ void Board::updateCastling() {/*Done*/
 	if (boardStates.size() < 2)
 		return;
 	// If on the last move rooks were not in their squares
-	if (previousBoard.array[bRooka] != -2) {
+	if (previousBoard.currArray[bRooka] != -2) {
 		castling.blackLongCastleOFF = true;
 	}
-	if (previousBoard.array[bRookh] != -2) {
+	if (previousBoard.currArray[bRookh] != -2) {
 		castling.blackShortCastleOFF = true;
 	}
-	if (previousBoard.array[wRooka] != 2) {
+	if (previousBoard.currArray[wRooka] != 2) {
 		castling.whiteLongCastleOFF = true;
 	}
-	if (previousBoard.array[wRookh] != 2) {
+	if (previousBoard.currArray[wRookh] != 2) {
 		castling.whiteShortCastleOFF = true;
 	}
 	// If on the last move kings were not on there squares
-	if (previousBoard.array[wKing] != 6) {
+	if (previousBoard.currArray[wKingdefault] != 6) {
 		castling.whiteLongCastleOFF = true;
 		castling.whiteShortCastleOFF = true;
 	}
-	if (previousBoard.array[bKing] != -6) {
+	if (previousBoard.currArray[bKingdefault] != -6) {
 		castling.blackLongCastleOFF = true;
 		castling.blackShortCastleOFF = true;
 	}
 }
 std::vector<Square_pair> Board::getPseudoMoves(const int colour) {
-	return {};
+	return {}; // pseudoMoves implementation with the same board ->new .cpp file needed
 }
 std::vector<Square_pair> Board::getPseudoMoves(const int piece, const int colour) {/*Done*/ // DO THIS RN
 	std::vector<Square_pair> PseudoLegalMoves;
-	switch (board[piece]){
+	switch (board[piece]) {
 	case -99:
 		break;
 	case 0:
 		break;
 	case 1:
+		//std::vector<Square_pair> Board::getPawnPseudoMoves(const int piece, const std::array<int, 120>&currentBoard, const int colour)
+		PseudoLegalMoves = getPawnPseudoMoves(piece, colour);
 		//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
 		break;
 	case 2:
 		//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getRookPseudoMoves(piece, colour);
 		break;
 	case 3:
 		//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getKnightPseudoMoves(piece, colour);
 		break;
 	case 4:
 		//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getBishopPseudoMoves(piece, colour);
 		break;
 	case 5:
 		//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getQueenPseudoMoves(piece, colour);
 		break;
 	case 6:
 		//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+		PseudoLegalMoves = getKingPseudoMoves(piece, colour);
 		break;
 	case -1:
 		//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+		PseudoLegalMoves = getPawnPseudoMoves(piece, colour);
 		break;
 	case -2:
 		//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getRookPseudoMoves(piece, colour);
 		break;
 	case -3:
 		//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getKnightPseudoMoves(piece, colour);
 		break;
 	case -4:
 		//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getBishopPseudoMoves(piece, colour);
 		break;
 	case -5:
 		//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getQueenPseudoMoves(piece, colour);
 		break;
 	case -6:
 		//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+		PseudoLegalMoves = getKingPseudoMoves(piece, colour);
 		break;
 	default:
 		break;
-}
+	}
 	return PseudoLegalMoves;
+	return {};
 }
 std::vector<Square_pair> Board::getPseudoMoves(const int piece, const std::array<int, 120>& currentBoard, const int colour) {
-	return {};
+	std::vector<Square_pair> PseudoLegalMoves;
+	switch (board[piece]) {
+	case -99:
+		break;
+	case 0:
+		break;
+	case 1:
+		//std::vector<Square_pair> Board::getPawnPseudoMoves(const int piece, const std::array<int, 120>&currentBoard, const int colour)
+		PseudoLegalMoves = getPawnPseudoMoves(piece, currentBoard, colour);
+		//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+		break;
+	case 2:
+		//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getRookPseudoMoves(piece, currentBoard, colour);
+		break;
+	case 3:
+		//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getKnightPseudoMoves(piece, currentBoard, colour);
+		break;
+	case 4:
+		//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getBishopPseudoMoves(piece, currentBoard, colour);
+		break;
+	case 5:
+		//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getQueenPseudoMoves(piece, currentBoard, colour);
+		break;
+	case 6:
+		//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+		PseudoLegalMoves = getKingPseudoMoves(piece, currentBoard, colour);
+		break;
+	case -1:
+		//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+		PseudoLegalMoves = getPawnPseudoMoves(piece, currentBoard, colour);
+		break;
+	case -2:
+		//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getRookPseudoMoves(piece, currentBoard, colour);
+		break;
+	case -3:
+		//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getKnightPseudoMoves(piece, currentBoard, colour);
+		break;
+	case -4:
+		//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getBishopPseudoMoves(piece, currentBoard, colour);
+		break;
+	case -5:
+		//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+		PseudoLegalMoves = getQueenPseudoMoves(piece, currentBoard, colour);
+		break;
+	case -6:
+		//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+		PseudoLegalMoves = getKingPseudoMoves(piece, currentBoard, colour);
+		break;
+	default:
+		break;
+	}
+	return PseudoLegalMoves;
 }
-std::vector<Square_pair> Board::getPseudoMoves(const std::array<int, 120>& currentBoard, const int colour) {
-	return {};
+std::vector<Square_pair> Board::getPseudoMoves(const std::array<int, 120>& currentBoard, const int colour) { // All pieces - custom board
+	// this needed
+	std::vector<Square_pair> PseudoLegalMoves;
+	for (int i = 0; i < 120; ++i) {
+		const int squareValue = currentBoard[i]; // in the board
+		if (squareValue == -99 || squareValue == 0) continue;
+
+		
+		std::vector<Square_pair> newMoves;
+		switch (squareValue) {
+		case 1:
+			//std::vector<Square_pair> Board::getPawnPseudoMoves(const int piece, const std::array<int, 120>&currentBoard, const int colour)
+			newMoves = getPawnPseudoMoves(i, currentBoard, colour);
+			//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+			break;
+		case 2:
+			//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+			newMoves = getRookPseudoMoves(i, currentBoard, colour);
+			break;
+		case 3:
+			//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+			newMoves = getKnightPseudoMoves(i, currentBoard, colour);
+			break;
+		case 4:
+			//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+			newMoves = getBishopPseudoMoves(i, currentBoard, colour);
+			break;
+		case 5:
+			//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+			newMoves = getQueenPseudoMoves(i, currentBoard, colour);
+			break;
+		case 6:
+			//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+			newMoves = getKingPseudoMoves(i, currentBoard, colour);
+			break;
+		case -1:
+			//PseudoLegalMoves = PAWNpseudoMoves(square, array, colour, boardStates);
+			newMoves = getPawnPseudoMoves(i, currentBoard, colour);
+			break;
+		case -2:
+			//PseudoLegalMoves = ROOKpseudoMoves(square, array, colour);
+			newMoves = getRookPseudoMoves(i, currentBoard, colour);
+			break;
+		case -3:
+			//PseudoLegalMoves = KNIGHTpseudoMoves(square, array, colour);
+			newMoves = getKnightPseudoMoves(i, currentBoard, colour);
+			break;
+		case -4:
+			//PseudoLegalMoves = BISHOPpseudoMoves(square, array, colour);
+			newMoves = getBishopPseudoMoves(i, currentBoard, colour);
+			break;
+		case -5:
+			//PseudoLegalMoves = QUEENpseudoMoves(square, array, colour);
+			newMoves = getQueenPseudoMoves(i, currentBoard, colour);
+			break;
+		case -6:
+			//PseudoLegalMoves = KINGpseudoMoves(square, array, colour, castling, boardStates);
+			newMoves = getKingPseudoMoves(i, currentBoard, colour);
+			break;
+		default:
+			break;
+		}
+		PseudoLegalMoves.insert(PseudoLegalMoves.end(), newMoves.begin(), newMoves.end());
+		
+	}
+	return PseudoLegalMoves;
 }
 void Board::movePieces(const Square_pair& move) { // pervadinti i MovePair
+	//std::cout << "MOVE PIECES FNC";
+	if (board[move.sq1] == 6 || board[move.sq1] == -6) {
+		if (move.sq1 + 2 == move.sq2) {
 
+			// Short castle
+			// Rook going -2 tiles
+			board[move.sq2 - 1] = board[move.sq2 + 1]; //Left of king = rook
+			board[move.sq2 + 1] = 0; // old rook pos = 0
+		}
+		else if (move.sq1 - 2 == move.sq2) {
+			// Long castle
+			// Rook going +3 tiles
+			board[move.sq2 + 1] = board[move.sq2 - 2]; //Right of king = rook
+			board[move.sq2 - 2] = 0;
+		}
+	}
+	else if (std::abs(board[move.sq1]) == 1 && board[move.sq2] == 0 && (move.sq2 % 10 != move.sq1 % 10)) { //En passant
+
+		if (board[move.sq1] == 1) { // If the pawn is white == Capturing upwards
+			board[move.sq2 + 10] = 0;
+		}
+		else if (board[move.sq1] == -1) {
+			board[move.sq2 - 10] = 0;
+		}
+	}
+	board[move.sq2] = board[move.sq1];
+	board[move.sq1] = 0;
 }
 void Board::movePieces(const Square_pair& move, std::array<int, 120>& currentBoard) {
+	//std::cout << "MOVE PIECES FNC";
+	if (currentBoard[move.sq1] == 6 || currentBoard[move.sq1] == -6) {
+		if (move.sq1 + 2 == move.sq2) {
 
+			// Short castle
+			// Rook going -2 tiles
+			currentBoard[move.sq2 - 1] = currentBoard[move.sq2 + 1]; //Left of king = rook
+			currentBoard[move.sq2 + 1] = 0; // old rook pos = 0
+		}
+		else if (move.sq1 - 2 == move.sq2) {
+			// Long castle
+			// Rook going +3 tiles
+			currentBoard[move.sq2 + 1] = currentBoard[move.sq2 - 2]; //Right of king = rook
+			currentBoard[move.sq2 - 2] = 0;
+		}
+	}
+	else if (std::abs(currentBoard[move.sq1]) == 1 && currentBoard[move.sq2] == 0 && (move.sq2 % 10 != move.sq1 % 10)) { //En passant
+
+		if (currentBoard[move.sq1] == 1) { // If the pawn is white == Capturing upwards
+			currentBoard[move.sq2 + 10] = 0;
+		}
+		else if (currentBoard[move.sq1] == -1) {
+			currentBoard[move.sq2 - 10] = 0;
+		}
+	}
+	currentBoard[move.sq2] = currentBoard[move.sq1];
+	currentBoard[move.sq1] = 0;
 }
 void Board::updateKingPositions() {// Done 
 	std::vector<int> moveDirections = { {0},
@@ -205,6 +398,7 @@ void Board::updateKingPositions() {// Done
 		int newPosition = bKing + direction;
 		if (board[newPosition] == -6) {
 			bKing = newPosition;
+
 			break;
 		}
 			
@@ -289,6 +483,61 @@ void Board::drawBoard() {
 	}
 	std::cout << "     a   b   c   d   e   f   g   h\n\n";
 }
-void Board::updateBoardState(boardState& currentBoard) {
-	boardStates.push_back(currentBoard);
+void Board::updateBoardState(const std::array<int, 120>& currentBoard) {
+	boardState tempBoard;
+	tempBoard.currArray = currentBoard;
+	boardStates.push_back(tempBoard);
+}
+void Board::updateGameStatus() {
+	
+	std::vector<Square_pair> pseudoMoves = getPseudoMoves(board, whiteTurn);
+	for (const Square_pair& move : pseudoMoves) {
+		if ((move.sq1 + 2 == move.sq2 || move.sq1 - 2 == move.sq2) && (std::abs(board[move.sq1]) == 6)){
+			if (!canCastle(move, board, whiteTurn)) {
+				continue;
+			}
+		}
+		std::array<int, 120> tempBoard = board;
+		movePieces(move, tempBoard); // Move the pieces on tempBoard
+
+		if (!isKingInCheck(tempBoard, whiteTurn)) {
+			if (whiteTurn == 1) {
+				whiteCheckmated = false;
+			}
+			else blackCheckmated = false;
+		}
+	}
+	if (!isKingInCheck(board, whiteTurn)) {
+		// If king has no legal moves, but is not in check
+		stalemate = true;
+	}
+	else if (whiteTurn == 1) { // If king in check, and colour is white
+		whiteCheckmated = true;
+	}
+	else blackCheckmated = true;
+}
+bool Board::canCastle(const Square_pair& move, const std::array<int, 120>& currentBoard, const int whiteTurn) {
+	if (move.sq1 + 2 == move.sq2) {
+		std::array<int, 120> tempBoard = currentBoard;
+		if (isKingInCheck(tempBoard, whiteTurn)) {
+			return 0; // If currently king in check - Cant castle
+		}
+		movePieces({ move.sq1, move.sq1 + 1 }, tempBoard);
+
+		if (isKingInCheck(tempBoard, whiteTurn)) {
+			return 0; // If square between rook and king is not safe - Cant castle
+		}
+	}
+	else if (move.sq1 - 2 == move.sq2) {
+		std::array<int, 120> tempBoard = currentBoard;
+		if (isKingInCheck(tempBoard, whiteTurn)) {
+			return 0; // If currently king in check - Cant castle
+		}
+		movePieces({ move.sq1, move.sq1 - 1 }, tempBoard);
+
+		if (isKingInCheck(tempBoard, whiteTurn)) {
+			return 0; // If square between rook and king is not safe - Cant castle
+		}
+	}
+	return 1;
 }

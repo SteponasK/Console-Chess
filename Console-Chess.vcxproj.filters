@@ -45,6 +45,9 @@
     <ClCompile Include="PiecePseudoMoves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="boardConstructor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pseudoMoves.h">

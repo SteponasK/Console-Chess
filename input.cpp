@@ -1,6 +1,6 @@
 #include "input.h"
 
-Square_pair input(const bool whiteTurn, const int currBoard[120]) {
+Square_pair input(const int whiteTurn, const std::array<int,120> currBoard) {
 start:
     std::cout << "\n\n\n";
     std::string str;
@@ -13,13 +13,13 @@ start:
     }
     return { sq1, sq2 };
 }
-bool check_turn(bool whiteTurn, const int sq1, const int currBoard[120]) {
-    if (whiteTurn && (currBoard[sq1] < 1 )) {
+bool check_turn(int whiteTurn, const int sq1, const std::array<int, 120> currBoard) {
+    if (whiteTurn == 1 && (currBoard[sq1] < 1 )) {
         std::cout << "currBoard[s1] == " << currBoard[sq1] << " sq1 == " << sq1 << std::endl;
         std::cout << "check_turn returned false: incorrect sq1 colour";
         return false;
     }
-    if (!whiteTurn && (currBoard[sq1] > -1)) {
+    if (whiteTurn == -1&& (currBoard[sq1] > -1)) {
         std::cout << "check_turn returned false: incorrect sq1 colour";
         std::cout << "currBoard[s1] == " << currBoard[sq1] <<" sq1 == " << sq1<< std::endl;
         return false;
