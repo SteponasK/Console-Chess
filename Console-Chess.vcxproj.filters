@@ -42,6 +42,9 @@
     <ClCompile Include="Square_pair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PiecePseudoMoves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pseudoMoves.h">

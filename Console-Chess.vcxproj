@@ -133,6 +133,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="move.cpp" />
+    <ClCompile Include="PiecePseudoMoves.cpp" />
     <ClCompile Include="prevMoves.cpp" />
     <ClCompile Include="pseudoMoves.cpp" />
     <ClCompile Include="Square_pair.cpp" />
