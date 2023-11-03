@@ -27,7 +27,7 @@ int main() {
         // Change turn
         Sleep(1500);
         system("CLS");
-        game.blackCheckmated = true;
+        //game.blackCheckmated = true;
     }
     // Scroll Previous moves:
     // E - exit
@@ -41,11 +41,13 @@ int main() {
         if (game.blackCheckmated) std::cout << "White won by checkmate!\n";
         if (game.whiteCheckmated) std::cout << "Black won by checkmate!\n";
         if (game.stalemate) std::cout << "Draw by stalemate!\n";
-
+        std::cout << std::endl;
         if (index > maxIndex) index = maxIndex; // Out of bounds checking
         else if (index < 0) index = 0;
         
         draw_board(boardStates.at(index).array);
+        std::cout << "Navigate using 'A' and 'B' keys to view past moves.\n";
+        std::cout << "Press 'E' to exit the application\n\n";
         std::cout << "Move: " << index + 1;
         key = _getch();
         key = toupper(key);
