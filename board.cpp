@@ -536,6 +536,7 @@ bool Board::canCastle(const Square_pair& move, const std::array<int, 120>& curre
 bool Board::gameOver() {
 	if (whiteCheckmated || blackCheckmated || stalemate)
 		return true;
+	return false;
 }
 void Board::changeTurn() {
 	if (whiteTurn == 1) {

@@ -63,13 +63,11 @@ unsigned long long Perft(Board perftBoard,int depth, std::array<int, 120> tempBo
 
             // If you're at the root node (depth-1 move), start a new count.
             if (currentDepth == 0) {
-                /*nodes += Perft(depth - 1, tempBoard, -colour, castling, boardStates, moveCounts, 1, moveString);*/
                 nodes += Perft(perftBoard, depth - 1, tempBoard, -colour, perftBoard.castling, perftBoard.boardStates,
                     moveCounts, 1, moveString);
             }
             else {
                 // If you're not at the root, accumulate counts for the corresponding root move.
-                /*nodes += Perft(depth - 1, tempBoard, -colour, castling, boardStates, moveCounts, currentDepth, currentMove);*/
                 nodes += Perft(perftBoard, depth - 1, tempBoard, -colour, perftBoard.castling, perftBoard.boardStates,
                     moveCounts, currentDepth, currentMove);
             }
