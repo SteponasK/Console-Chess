@@ -33,7 +33,7 @@ void game(Board& testBoard, Square_pair& square_pair, bool minimax) {
         }
         else {
             // Minimax turn
-            Square_pair bestMove = findBestMove(testBoard, 3, testBoard.getBoard(), -1, testBoard.castling); // TODO: BEFORE AFTER FUNCTION CALL DO A TIMER
+            Square_pair bestMove = findBestMove(testBoard, 5, testBoard.getBoard(), -1, testBoard.castling); // TODO: BEFORE AFTER FUNCTION CALL DO A TIMER
             //Square_pair enemyMove = findBestMove(testBoard, 3, testBoard.getBoard(), 1, testBoard.castling);
             testBoard.movePieces(bestMove);
             testBoard.changeTurn();
