@@ -138,6 +138,7 @@
     <ClCompile Include="Square_pair.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="activityBoards.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="castling.h" />
     <ClInclude Include="evaluate.h" />
