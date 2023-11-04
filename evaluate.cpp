@@ -20,7 +20,7 @@ int countPosition(const std::array<int, 120>& board, const int colour) {
 			if (board[i] == 2) points += wRook[i];
 			if (board[i] == 3) points += Knight[i];
 			if (board[i] == 4) points += wBishop[i];
-			if (board[i] == 5) points += Queen[i];
+			/*if (board[i] == 5) points += Queen[i];*/
 		}
 	}
 	else {
@@ -29,7 +29,7 @@ int countPosition(const std::array<int, 120>& board, const int colour) {
 			if (board[i] == -2) points += bRook[i];
 			if (board[i] == -3) points += Knight[i];
 			if (board[i] == -4) points += bBishop[i];
-			if (board[i] == -5) points += Queen[i];
+			/*if (board[i] == -5) points += Queen[i];*/
 		}
 	}
 	
