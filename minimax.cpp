@@ -3,10 +3,10 @@
 Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling& castling) {
     std::vector<Square_pair> pseudoMoves = perftBoard.getPseudoMoves(tempBoard, colour);
 
-    Square_pair bestMove = { -1, -1 }; // Initialize to an invalid move
+    Square_pair bestMove = { -1, -1 }; // Invalid move
     int bestScore = (colour == 1) ? INT_MIN : INT_MAX;
-    int alpha = INT_MIN; // Initialize alpha to negative infinity
-    int beta = INT_MAX;  // Initialize beta to positive infinity
+    int alpha = INT_MIN; // Alpha - negative infinity
+    int beta = INT_MAX;  // Beta - positive infinity
 
     for (const auto& move : pseudoMoves) {
         std::array<int, 120> tempBoardCopy = tempBoard;
@@ -25,7 +25,6 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
             beta = score;
         }
     }
-
     return bestMove;
 }
 
