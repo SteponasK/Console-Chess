@@ -560,3 +560,6 @@ void Board::printWinner() {
 	else if (whiteCheckmated) std::cout << "Black won by checkmate!\n";
 	else if (stalemate) std::cout << "Draw by stalemate!\n";
 }
+std::array<int, 120> Board::getBoard() {
+	return board;
+}
