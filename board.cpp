@@ -249,7 +249,7 @@ std::vector<Square_pair> Board::getPseudoMoves(const int piece, const std::array
 	return PseudoLegalMoves;
 }
 std::vector<Square_pair> Board::getPseudoMoves(const std::array<int, 120>& currentBoard, const int colour) { // All pieces - custom board
-	// this needed
+	// BoardStates (pawn/king) may be wrong. Potential fix: adding (BoardStates& boardState) param
 	std::vector<Square_pair> PseudoLegalMoves;
 	for (int i = 0; i < 120; ++i) {
 		const int squareValue = currentBoard[i]; // in the board
@@ -479,7 +479,7 @@ void Board::drawBoard() {
 	std::cout << "     a   b   c   d   e   f   g   h\n\n";
 }
 void Board::updateBoardState() {
-	boardState tempBoard;
+	boardState tempBoard{};
 	tempBoard.currArray = board;
 	boardStates.push_back(tempBoard);
 }
@@ -536,6 +536,7 @@ bool Board::canCastle(const Square_pair& move, const std::array<int, 120>& curre
 bool Board::gameOver() {
 	if (whiteCheckmated || blackCheckmated || stalemate)
 		return true;
+	return false;
 }
 void Board::changeTurn() {
 	if (whiteTurn == 1) {
@@ -546,10 +547,23 @@ void Board::changeTurn() {
 int Board::getTurn() {
 	return whiteTurn;
 }
-std::string Board::printTurn() {
+void Board::printTurn() {
+	std::cout << "Turn = ";
 	const int turn = getTurn();
 	if (turn == 1) {
-		return std::string{ "White" };
+		std::cout <<"White\n";
 	}
-	else return std::string{ "Black" };
+	else std::cout << "Black\n";
+}
+void Board::printWinner() {
+	std::cout << "Game over!\n";
+	if (blackCheckmated) std::cout << "White won by checkmate!\n";
+	else if (whiteCheckmated) std::cout << "Black won by checkmate!\n";
+	else if (stalemate) std::cout << "Draw by stalemate!\n";
+}
+std::array<int, 120> Board::getBoard() {
+	return board;
+}
+void Board::setTurn(const int whiteTurn) {
+	this->whiteTurn = whiteTurn;
 }
