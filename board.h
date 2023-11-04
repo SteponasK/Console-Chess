@@ -18,15 +18,15 @@ public:
 
 	void changeTurn();
 	int getTurn();
-	std::string printTurn();
-
+	void printTurn();
+	void printWinner();
 	void updateGameStatus();
 	bool gameOver();
 	bool whiteCheckmated = false; // Public for now, because used for displaying game status (game won by checkmate black, etc.)
 	bool blackCheckmated = false;
 	bool stalemate = false;
 	std::array<int, 120> board; // input() wants this, so public for now (TODO: create .getBoard() fnc)
-
+	
 	void updateBoardState();
 private: 
 	int whiteTurn = 1; // White = 1 / Black = -1

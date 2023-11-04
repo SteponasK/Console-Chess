@@ -546,10 +546,17 @@ void Board::changeTurn() {
 int Board::getTurn() {
 	return whiteTurn;
 }
-std::string Board::printTurn() {
+void Board::printTurn() {
+	std::cout << "Turn = ";
 	const int turn = getTurn();
 	if (turn == 1) {
-		return std::string{ "White" };
+		std::cout <<"White\n";
 	}
-	else return std::string{ "Black" };
+	else std::cout << "Black\n";
+}
+void Board::printWinner() {
+	std::cout << "Game over!\n";
+	if (blackCheckmated) std::cout << "White won by checkmate!\n";
+	else if (whiteCheckmated) std::cout << "Black won by checkmate!\n";
+	else if (stalemate) std::cout << "Draw by stalemate!\n";
 }
