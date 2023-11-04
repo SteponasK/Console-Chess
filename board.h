@@ -21,6 +21,7 @@ public:
 	void changeTurn();
 	int getTurn();
 	void printTurn();
+	void setTurn(const int whiteTurn);
 	void printWinner();
 	void updateGameStatus();
 	bool gameOver();

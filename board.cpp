@@ -564,3 +564,6 @@ void Board::printWinner() {
 std::array<int, 120> Board::getBoard() {
 	return board;
 }
+void Board::setTurn(const int whiteTurn) {
+	this->whiteTurn = whiteTurn;
+}
