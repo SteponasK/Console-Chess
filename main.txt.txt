@@ -1,0 +1,30 @@
+this text can be added after main game loop: (not updated)
+
+
+    //auto currentBoard = boardStates.back();
+    //int maxIndex = boardStates.size() - 1;
+    //int index = boardStates.size() - 1;
+    //char key;
+    //do {
+    //    std::cout << "Game over!\n"; // Pass it to the function maybe
+    //    if (testBoard.blackCheckmated) std::cout << "White won by checkmate!\n";
+    //    if (testBoard.whiteCheckmated) std::cout << "Black won by checkmate!\n";
+    //    if (testBoard.stalemate) std::cout << "Draw by stalemate!\n";
+    //    std::cout << std::endl;
+    //    if (index > maxIndex) index = maxIndex; // Out of bounds checking
+    //    else if (index < 0) index = 0;
+    //    
+    //    draw_board(boardStates.at(index).array);
+    //    std::cout << "Navigate using 'A' and 'D' keys to view past moves.\n";
+    //    std::cout << "Press 'E' to exit the application\n\n";
+    //    std::cout << "Move: " << index + 1;
+    //    key = _getch();
+    //    key = toupper(key);
+    //    if (key == 'A') { // Index through all board moves.
+    //        --index;
+    //    }
+    //    if (key == 'D') {
+    //        ++index;
+    //    }
+    //    system("CLS");
+    //} while (key != 'E');
