@@ -130,19 +130,24 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="boardConstructor.cpp" />
     <ClCompile Include="evaluate.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="minimax.cpp" />
     <ClCompile Include="perft.cpp" />
     <ClCompile Include="PiecePseudoMoves.cpp" />
     <ClCompile Include="Square_pair.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="activityBoards.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="castling.h" />
     <ClInclude Include="evaluate.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="boardStates.h" />
+    <ClInclude Include="minimax.h" />
     <ClInclude Include="perft.h" />
     <ClInclude Include="Square_pair.h" />
   </ItemGroup>

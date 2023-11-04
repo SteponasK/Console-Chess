@@ -1,15 +1,11 @@
 #ifndef  EVALUATE_H
 #define EVALUATE_H
 #include "board.h"
-struct PieceValues
-{
-	static constexpr int pawnValue = 100;
-	static constexpr int kingValue = 100;
-};
-
-
-
+int evaluate(const std::array<int, 120>& board, const int colour);
 int countMaterial(const std::array<int, 120>& board, const int colour);
-int evaluate(const std::array<int, 120>& board);
+int countPosition(const std::array<int, 120>& board, const int colour);
+
+
+
 #endif // ! EVALUATE_H
 

@@ -10,6 +10,8 @@
 class Board {
 public:
 	Board();
+
+	
 	
 	void drawBoard(const int currBoard[120]); // Overload -  For drawing previous moves
 	void drawBoard(); // For drawing Current move
@@ -19,6 +21,7 @@ public:
 	void changeTurn();
 	int getTurn();
 	void printTurn();
+	void setTurn(const int whiteTurn);
 	void printWinner();
 	void updateGameStatus();
 	bool gameOver();
