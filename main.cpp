@@ -1,5 +1,6 @@
 #include "Headers.h"
 #include "perft.h"
+#include "minimax.h"
 void game(Board& testBoard, Square_pair& square_pair);
 int main() {
     Board testBoard;

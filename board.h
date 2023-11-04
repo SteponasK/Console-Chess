@@ -10,6 +10,8 @@
 class Board {
 public:
 	Board();
+
+	
 	
 	void drawBoard(const int currBoard[120]); // Overload -  For drawing previous moves
 	void drawBoard(); // For drawing Current move
