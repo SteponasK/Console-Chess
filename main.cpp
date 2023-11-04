@@ -3,10 +3,10 @@
 void game(Board& testBoard, Square_pair& square_pair);
 int main() {
     Board testBoard;
-    Square_pair square_pair;
+    Square_pair square_pair{};
     //game(testBoard, square_pair);
 
-        testBoard.updateBoardState();
+        testBoard.updateBoardState(); 
         std::map<std::string, unsigned long long> moveCounts;
 
         for (int i = 0; i <= 4; ++i) {

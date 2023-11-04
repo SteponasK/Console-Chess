@@ -479,7 +479,7 @@ void Board::drawBoard() {
 	std::cout << "     a   b   c   d   e   f   g   h\n\n";
 }
 void Board::updateBoardState() {
-	boardState tempBoard;
+	boardState tempBoard{};
 	tempBoard.currArray = board;
 	boardStates.push_back(tempBoard);
 }
