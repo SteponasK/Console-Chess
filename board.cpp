@@ -249,7 +249,7 @@ std::vector<Square_pair> Board::getPseudoMoves(const int piece, const std::array
 	return PseudoLegalMoves;
 }
 std::vector<Square_pair> Board::getPseudoMoves(const std::array<int, 120>& currentBoard, const int colour) { // All pieces - custom board
-	// this needed
+	// BoardStates (pawn/king) may be wrong. Potential fix: adding (BoardStates& boardState) param
 	std::vector<Square_pair> PseudoLegalMoves;
 	for (int i = 0; i < 120; ++i) {
 		const int squareValue = currentBoard[i]; // in the board

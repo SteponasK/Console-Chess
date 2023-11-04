@@ -59,5 +59,8 @@
     <ClInclude Include="perft.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="evaluate.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
