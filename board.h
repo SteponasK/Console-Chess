@@ -26,7 +26,7 @@ public:
 	bool blackCheckmated = false;
 	bool stalemate = false;
 	std::array<int, 120> board; // input() wants this, so public for now (TODO: create .getBoard() fnc)
-	
+	std::array<int, 120> getBoard();//get Current board
 	void updateBoardState();
 private: 
 	int whiteTurn = 1; // White = 1 / Black = -1

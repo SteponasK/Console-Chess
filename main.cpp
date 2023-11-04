@@ -9,7 +9,7 @@ int main() {
         
         testBoard.printTurn();
         testBoard.drawBoard();
-        square_pair = input(testBoard.getTurn(), testBoard.board); // getBoard() change
+        square_pair = input(testBoard.getTurn(), testBoard.getBoard()); // getBoard() change
         if (testBoard.handleMove(square_pair)) {
             testBoard.changeTurn();
             testBoard.updateBoardState(); // first change colour, then check
