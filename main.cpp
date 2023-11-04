@@ -3,7 +3,7 @@
 #include "minimax.h"
 void game(Board& testBoard, Square_pair& square_pair);
 void game(Board& testBoard, Square_pair& square_pair, bool minimax);
-int main() {
+int main() { // Promotion not added
     Board testBoard;
     Square_pair square_pair{};
     // GAME OPTIONS:
@@ -27,7 +27,7 @@ void game(Board& testBoard, Square_pair& square_pair, bool minimax) {
             square_pair = input(testBoard.getTurn(), testBoard.getBoard());
             if (testBoard.handleMove(square_pair)) {
                 testBoard.changeTurn();
-                testBoard.updateBoardState();
+                testBoard.updateBoardState(); // This outside loop (repeats iself)
                 testBoard.updateGameStatus();
             }
         }
@@ -43,7 +43,7 @@ void game(Board& testBoard, Square_pair& square_pair, bool minimax) {
             // CPU CALCULATED THIS MANY BRANCHES IN THIS MUCH TIME:
         }
 
-        Sleep(1500);
+       // Sleep(1500);
         system("CLS");
     }
     testBoard.printWinner();
