@@ -27,6 +27,20 @@ std::string getMoveString(const Square_pair& move) { // Convert from a move to a
 //   perftBoard.castling, perftBoard.boardStates,  moveCounts);
 //    return 1;
 //}
+void printPerftResults(Board& perftBoard, const int depth) {
+    clock_t start{}; // Clock timer
+    clock_t end{};
+
+    std::map<std::string, unsigned long long> moveCounts;
+    start = clock();
+    unsigned long long nodeCount = Perft(perftBoard, depth, perftBoard.getBoard(), perftBoard.getTurn(),
+        perftBoard.castling, perftBoard.boardStates, moveCounts);
+    end = clock();
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    std::cout << "Perft(" << depth << ") = " << nodeCount << " nodes. ";
+    std::cout << "Time taken : " << std::fixed
+        << time_taken << std::setprecision(5) <<'s' << std::endl;
+}
 unsigned long long Perft(Board perftBoard,int depth, std::array<int, 120> tempBoard, int colour, Castling& castling,
     std::vector<boardState>& boardStates, std::map<std::string, // prie array pass by reference gal
     unsigned long long>& moveCounts, int currentDepth, std::string currentMove) {

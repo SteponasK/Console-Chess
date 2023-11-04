@@ -8,12 +8,18 @@ int main() {
 
         testBoard.updateBoardState();
         std::map<std::string, unsigned long long> moveCounts;
-        int depth = 3;
-        unsigned long long nodeCount = Perft(testBoard, depth, testBoard.getBoard(), testBoard.getTurn(),
-        testBoard.castling, testBoard.boardStates,  moveCounts);
-        
+
+        for (int i = 0; i <= 4; ++i) {
+            printPerftResults(testBoard, i);
+            //Perft(0) = 1 nodes.Time taken : 0.000000s
+            //Perft(1) = 20 nodes.Time taken : 0.00200s
+            //Perft(2) = 400 nodes.Time taken : 0.05000s
+            //Perft(3) = 8902 nodes.Time taken : 1.13600s
+            //Perft(4) = 197281 nodes.Time taken : 23.63400s
+        }
 	return 0;
 }
+
 void game(Board &testBoard, Square_pair& square_pair) {
     testBoard.updateBoardState(); // Can call this in the constructor
     while (!testBoard.gameOver()) {
