@@ -37,7 +37,7 @@ int countPosition(const std::array<int, 120>& board, const int colour) {
 }
 int countMaterial(const std::array<int, 120>& board, const int colour) {
 	int points{};
-	const int pieceValues[] = { 0, 100, 500, 300, 300, 900, 0 };// King score is not counted 
+	const int pieceValues[] = { 0, 100, 500, 300, 300, 950, 999999};// King score is not counted 
 	for (int i = 21; i < 100; ++i) {
 		int value = board[i] * colour;
 		if (value > 0) { // same Colour

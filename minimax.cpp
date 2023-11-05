@@ -1,6 +1,6 @@
 #include "minimax.h"
 #include "evaluate.h"
-Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling& castling) {
+Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling castling) {
     std::vector<Square_pair> pseudoMoves = perftBoard.getPseudoMoves(tempBoard, colour);
 
     Square_pair bestMove = { -1, -1 }; // Invalid move
@@ -40,6 +40,7 @@ int minimax(Board perftBoard, int depth, std::array<int, 120> tempBoard, int col
         for (const auto& move : pseudoMoves) {
             std::array<int, 120> tempBoardCopy = tempBoard;
             perftBoard.movePieces(move, tempBoardCopy);
+            if (perftBoard.isKingInCheck(tempBoardCopy, colour)) break;
             int score = minimax(perftBoard, depth - 1, tempBoardCopy, -colour, castling, alpha, beta);
             maxScore = std::max(maxScore, score);
             alpha = std::max(alpha, maxScore);
