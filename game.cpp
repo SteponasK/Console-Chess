@@ -14,7 +14,7 @@ void startGame(Board& testBoard) {
             gamePVP(testBoard, square_pair);
             break;
         case 2:
-            gamePVE(testBoard, square_pair);
+            gamePVE(testBoard, square_pair, testBoard.getTurn());
             break;
         case 3:
             gameEVE(testBoard, square_pair);
@@ -57,13 +57,13 @@ void gameEVE(Board& testBoard, Square_pair& square_pair) {
     }
     testBoard.printWinner();
 }
-void gamePVE(Board& testBoard, Square_pair& square_pair) {
+void gamePVE(Board& testBoard, Square_pair& square_pair, const int choice) {
     testBoard.updateBoardState(); // Can call this in the constructor
     while (!testBoard.gameOver()) {
 
         testBoard.printTurn();
         testBoard.drawBoard();
-        if (testBoard.getTurn() == 1) {
+        if (testBoard.getTurn() == choice) {
             // Player's turn
             square_pair = input(testBoard.getTurn(), testBoard.getBoard());
             if (testBoard.handleMove(square_pair)) {
@@ -74,7 +74,7 @@ void gamePVE(Board& testBoard, Square_pair& square_pair) {
         }
         else {
             // Minimax turn
-            Square_pair bestMove = findBestMove(testBoard, 5, testBoard.getBoard(), -1, testBoard.castling); // TODO: BEFORE AFTER FUNCTION CALL DO A TIMER
+            Square_pair bestMove = findBestMove(testBoard, 5, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling); // TODO: BEFORE AFTER FUNCTION CALL DO A TIMER
             //Square_pair enemyMove = findBestMove(testBoard, 3, testBoard.getBoard(), 1, testBoard.castling);
             testBoard.movePieces(bestMove);
             testBoard.changeTurn();
