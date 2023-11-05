@@ -48,7 +48,10 @@ void gameEVE(Board& testBoard, Square_pair& square_pair) {
         testBoard.printTurn();
         testBoard.drawBoard();
         //Sleep(1500);
-        Square_pair bestMove = findBestMove(testBoard, 4, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling);
+        unsigned long long nodesCount{ 0 };
+        Square_pair bestMove = findBestMove(testBoard, 3, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling, nodesCount);
+        std::cout << "NODES COUNT: " << nodesCount << std::endl;
+        Sleep(500);
         testBoard.movePieces(bestMove);
         testBoard.changeTurn();
         testBoard.updateBoardState();
@@ -74,8 +77,11 @@ void gamePVE(Board& testBoard, Square_pair& square_pair, const int choice) {
         }
         else {
             // Minimax turn
-            Square_pair bestMove = findBestMove(testBoard, 5, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling); // TODO: BEFORE AFTER FUNCTION CALL DO A TIMER
+            unsigned long long nodesCount{ 0 };
+            Square_pair bestMove = findBestMove(testBoard, 5, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling, nodesCount); // TODO: BEFORE AFTER FUNCTION CALL DO A TIMER
             //Square_pair enemyMove = findBestMove(testBoard, 3, testBoard.getBoard(), 1, testBoard.castling);
+            std::cout << "NODES COUNT: " << nodesCount << std::endl;
+            Sleep(500);
             testBoard.movePieces(bestMove);
             testBoard.changeTurn();
             testBoard.updateBoardState();

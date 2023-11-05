@@ -1,10 +1,12 @@
 #include "minimax.h"
-#include "evaluate.h"
-Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling castling) {
+#include "evaluate.h"                                                               // colour param may be emitted (we see everything when board object is passed)
+Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling castling
+, unsigned long long& nodesCount) {
     std::vector<Square_pair> pseudoMoves = perftBoard.getPseudoMoves(tempBoard, colour);
 
-    Square_pair bestMove = { -1, -1 }; // Invalid move
-    int bestScore = (colour == 1) ? INT_MIN : INT_MAX;
+    Square_pair bestMove = { 55, 55 }; // Invalid move
+    int maxPlayer = perftBoard.getTurn();
+    int bestScore = (maxPlayer == 1) ? INT_MIN : INT_MAX;
     int alpha = INT_MIN; // Alpha - negative infinity
     int beta = INT_MAX;  // Beta - positive infinity
 
@@ -12,14 +14,14 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
         std::array<int, 120> tempBoardCopy = tempBoard;
         perftBoard.movePieces(move, tempBoardCopy);
 
-        int score = minimax(perftBoard, depth - 1, tempBoardCopy, -colour, castling, alpha, beta);
+        int score = minimax(perftBoard, depth - 1, tempBoardCopy, -maxPlayer, castling, alpha, beta, nodesCount);
 
-        if (colour == 1 && score > bestScore) {
+        if (colour == maxPlayer && score > bestScore) {
             bestScore = score;
             bestMove = move;
             alpha = score;
         }
-        else if (colour == -1 && score < bestScore) {
+        else if (colour == -maxPlayer && score < bestScore) {
             bestScore = score;
             bestMove = move;
             beta = score;
@@ -28,7 +30,9 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
     return bestMove;
 }
 
-int minimax(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling& castling, int alpha, int beta) {
+int minimax(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling& castling, int alpha, int beta,
+    unsigned long long& nodesCount) {
+    ++nodesCount;
     if (depth == 0) {
         return evaluate(tempBoard, colour);
     }
@@ -40,8 +44,8 @@ int minimax(Board perftBoard, int depth, std::array<int, 120> tempBoard, int col
         for (const auto& move : pseudoMoves) {
             std::array<int, 120> tempBoardCopy = tempBoard;
             perftBoard.movePieces(move, tempBoardCopy);
-            if (perftBoard.isKingInCheck(tempBoardCopy, colour)) break;
-            int score = minimax(perftBoard, depth - 1, tempBoardCopy, -colour, castling, alpha, beta);
+            if (perftBoard.isKingInCheck(tempBoardCopy, colour)) continue;
+            int score = minimax(perftBoard, depth - 1, tempBoardCopy, -colour, castling, alpha, beta, nodesCount);
             maxScore = std::max(maxScore, score);
             alpha = std::max(alpha, maxScore);
             if (beta <= alpha) {
@@ -55,7 +59,7 @@ int minimax(Board perftBoard, int depth, std::array<int, 120> tempBoard, int col
         for (const auto& move : pseudoMoves) {
             std::array<int, 120> tempBoardCopy = tempBoard;
             perftBoard.movePieces(move, tempBoardCopy);
-            int score = minimax(perftBoard, depth - 1, tempBoardCopy, -colour, castling, alpha, beta);
+            int score = minimax(perftBoard, depth - 1, tempBoardCopy, -colour, castling, alpha, beta, nodesCount);
             minScore = std::min(minScore, score);
             beta = std::min(beta, minScore);
             if (beta <= alpha) {
