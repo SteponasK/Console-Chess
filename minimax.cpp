@@ -4,7 +4,7 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
 , unsigned long long& nodesCount) {
     std::vector<Square_pair> pseudoMoves = perftBoard.getPseudoMoves(tempBoard, colour);
 
-    Square_pair bestMove = { 55, 55 }; // Invalid move
+    Square_pair bestMove = { -1, -1 }; // Invalid move
     int maxPlayer = perftBoard.getTurn();
     int bestScore = (maxPlayer == 1) ? INT_MIN : INT_MAX;
     int alpha = INT_MIN; // Alpha - negative infinity
