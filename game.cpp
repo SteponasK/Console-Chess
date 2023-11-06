@@ -49,17 +49,23 @@ void gameEVE(Board& testBoard, Square_pair& square_pair) {
         testBoard.drawBoard();
         //Sleep(1500);
         unsigned long long nodesCount{ 0 };
-        Square_pair bestMove = findBestMove(testBoard, 3, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling, nodesCount);
+        Square_pair bestMove = findBestMove(testBoard, 5, testBoard.getBoard(), testBoard.getTurn(), testBoard.castling, nodesCount);
         std::cout << "NODES COUNT: " << nodesCount << std::endl;
         Sleep(500);
         testBoard.movePieces(bestMove);
+        int eval = evaluate(testBoard.getBoard(), 1);
+        std::cout << "Evaluation :" << eval << std::endl;
+        Sleep(500);
         testBoard.changeTurn();
         testBoard.updateBoardState();
         testBoard.updateGameStatus();
+        
+        
         system("CLS");
     }
     testBoard.printWinner();
 }
+
 void gamePVE(Board& testBoard, Square_pair& square_pair, const int choice) {
     testBoard.updateBoardState(); // Can call this in the constructor
     while (!testBoard.gameOver()) {

@@ -6,7 +6,7 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
 
     Square_pair bestMove = { -1, -1 }; // Invalid move
     int maxPlayer = perftBoard.getTurn();
-    int bestScore = (maxPlayer == 1) ? INT_MIN : INT_MAX;
+    int bestScore = INT_MIN;
     int alpha = INT_MIN; // Alpha - negative infinity
     int beta = INT_MAX;  // Beta - positive infinity
 
@@ -16,7 +16,7 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
 
         int score = minimax(perftBoard, depth - 1, tempBoardCopy, -maxPlayer, castling, alpha, beta, nodesCount);
 
-        if (colour == maxPlayer && score > bestScore) {
+        if (colour == maxPlayer && score > bestScore) { // If statements do not get executed
             bestScore = score;
             bestMove = move;
             alpha = score;
@@ -31,7 +31,8 @@ Square_pair findBestMove(Board perftBoard, int depth, std::array<int, 120> tempB
 }
 
 int minimax(Board perftBoard, int depth, std::array<int, 120> tempBoard, int colour, Castling& castling, int alpha, int beta,
-    unsigned long long& nodesCount) {
+    unsigned long long& nodesCount) { // Remake minimax function
+
     ++nodesCount;
     if (depth == 0) {
         return evaluate(tempBoard, colour);

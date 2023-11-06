@@ -4,6 +4,7 @@
 #include "minimax.h"
 #include "input.h"
 #include <Windows.h>
+#include "evaluate.h"
 void gamePVP(Board& testBoard, Square_pair& square_pair);
 void gamePVE(Board& testBoard, Square_pair& square_pair, const int choice);
 void gameEVE(Board& testBoard, Square_pair& square_pair);
